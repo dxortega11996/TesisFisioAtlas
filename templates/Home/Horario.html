@@ -1,0 +1,75 @@
+{% extends 'Home/Home.html' %}
+
+{% load static %}
+
+    {% block  contenerdor %}
+    <style>
+        .titulo{
+            color: #09accc;
+        }
+        .list-group-item{
+            background-color:#fff0;        
+            border: 0px;
+            border-bottom: 1px solid rgba(0,0,0,.125) ;
+
+        }
+
+        .diaAtencion{
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .horario{
+            font-weight: 300;
+            
+        }
+        .row{
+            padding: 1rem 0rem;
+        }
+    </style>
+	<!-- Hero section -->
+    <div class="col-md-12" style="background:rgb(223, 223, 223)">
+        <div class="col-md-5" style="padding-top: 5rem;">
+            <div class="card" id="imagenCentral" style="background:rgba(255,255,255,.75);">
+                
+                <div class="card-body">
+                    <h1 class="card-title titulo" >Horarios de atención</h1>
+                    <div class="row border-bottom">
+                        <div class="col md-4 diaAtencion">Lunes</div>
+                        <div class="col md-4 horario">09:00-19:00</div>
+                        <div class="col md-4"></div>
+                    </div>
+                    <div class="row border-bottom">
+                        <div class="col md-4 diaAtencion">Martes</div>
+                        <div class="col md-4 horario">09:00-19:00</div>
+                        <div class="col md-4"></div>
+                    </div>
+                    <div class="row border-bottom">
+                        <div class="col md-4 diaAtencion">Miercoles</div>
+                        <div class="col md-4 horario">09:00-19:00</div>
+                        <div class="col md-4"></div>
+                    </div>
+                    <div class="row border-bottom">
+                        <div class="col md-4 diaAtencion">Jueves</div>
+                        <div class="col md-4 horario">09:00-19:00</div>
+                        <div class="col md-4"></div>
+                    </div>
+                    <div class="row border-bottom">
+                        <div class="col md-4 diaAtencion">Viernes</div>
+                        <div class="col md-4 horario">09:00-19:00</div>
+                        <div class="col md-4"></div>
+                    </div>
+                    <div class="row border-bottom">
+                        <div class="col md-4 diaAtencion">Sabado</div>
+                        <div class="col md-4 horario">09:00-19:00</div>
+                        <div class="col md-4"></div>
+                    </div>
+                    
+                </div>
+              </div>
+        
+        </div>
+    </div>
+	
+	<!-- Hero section end -->
+
+    {%  endblock %}

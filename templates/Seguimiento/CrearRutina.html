@@ -1,0 +1,310 @@
+{% extends 'Home/index.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static 'assets/css/sweetalert.css' %}" rel="stylesheet">
+<script src="{% static 'assets/js/sweetalert.js' %} "></script>
+<style>
+    .card-header{
+        background-color: #fff;
+    }
+    .tamanio{
+        width: 180px !important;
+    }
+    #id_num_sesion{
+        width: 100px !important;
+    }
+    #id_preescripcion{
+        height: 90px ;
+    }
+</style>
+<style>
+    .sweet-alert h2{
+        font-size: 1.2rem ;
+    }
+    .sweet-alert .text-muted{
+        font-size: 1.1rem;
+    }
+    .sa-button-container .cancel{
+        font-size: 1rem;
+    }
+    .sa-confirm-button-container .confirm {
+        font-size: 1rem ;
+    }
+</style>
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+<div class="col-md-12">
+    <form method="post" id="PacienteNuevo" enctype="multipart/form-data">
+        
+        {% csrf_token %} 
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Registro Actividad paciente: {{paciente1.user.first_name}} {{paciente1.user.last_name}}</h5>
+                
+            </div>
+            <div class="card-body">
+                <input type="hidden" id="id_historiaClinica" name="historiaClinica" value="{{historiaC.id}}">
+                <div class="row">
+                    <div class="col-md-2"><label class="font-weight-bold">Fecha Inicio:</label></div>
+                    <div class="col-md-3">
+                        {{ form.fecha_inicio}}
+                        {{ form.fecha_inicio.error }}
+                    </div>
+                    <div class="col-md-2"><label class="font-weight-bold">Fecha Fin:</label></div>
+                    <div class="col-md-3">
+                        {{ form.fecha_fin }}
+                        {{ form.fecha_fin.error }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-2"><label class="font-weight-bold">Número sesiones:</label></div>
+                    <div class="col-md-3">
+                        {{ form.num_sesion }}
+                        {{ form.num_sesion.error }}
+                    </div>
+                    <div class="col-md-2"><label class="font-weight-bold">Mano:</label></div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="0" onclick="cambiarMano(this.value)" checked>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                              Derecha
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="1" onclick="cambiarMano(this.value)" >
+                            <label class="form-check-label" for="flexRadioDefault2">
+                              Izquierda
+                            </label>
+                          </div>
+                          <input type="hidden" id="id_mano_derecha" name="mano_derecha" value="0">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    
+                    <div class="col-md-2"><label class="font-weight-bold">Observación:</label></div>
+                    <div class="col-md-3">
+                        {{ form.preescripcion }}
+                        {{ form.preescripcion.error }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <h5 class="card-title">Seleccione los juegos</h5>
+                    </div>
+                    
+                </div>
+                <div class="col-md-12 mt-3">
+                    {% for i in Juegos %}
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    {{i.nombre}} 
+                                </label>
+                            </div>
+                            <div class="col-md-1">
+
+                                <label class="switch">
+                                    <input type="checkbox"  class="verificarJuego" value="{{i.id}}">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <input type="hidden" id="hfchkJuego_{{i.id}}" name="juegonNum{{i.id}}" value="NO">
+                            
+                            <div class="col-md-1">
+                                <input type="number" id="txtNumSesionesJuego_{{i.id}}" name="NumSesionesJuego{{i.id}}" class="form-control onlyNumbers" value="0" >
+                                <!-- <select id="ddlJuego_{{i.id}}" class="custom-select fechasDisponibles">
+                                    
+                                </select> -->
+                            </div>
+                        </div>                        
+                    {% endfor  %}
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-primary"   type="submit" id="btnGuardarRutina">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+
+{% for message in messages %}
+    <div class="alert {{message.tags}}" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+
+
+<script type="text/javascript">
+   var diasDisponibles=0;
+    $(document).ready(function() {
+        
+        var fecha=moment(new Date()).format("yyyy-MM-DD");
+        $('.datepicker').val(fecha);
+
+
+        $('#id_num_sesion').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+        $('.onlyNumbers').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+
+        $('#id_num_sesion').val(1)
+     });
+     
+    function cambiarMano(valor){
+        $('#id_mano_derecha').val(valor);
+    }
+
+    $('.verificarJuego').change(function(){
+        
+        if($(this).prop('checked')){
+            $('#hfchkJuego_'+this.value).val('SI');
+        }else{
+            $('#hfchkJuego_'+this.value).val('NO');
+        }
+    });
+
+    $('.datepicker').change(function(){
+        
+        if($('#id_fecha_inicio').val()==''){
+            swal('Ingrese la fecha Inicio');
+            return;
+        }
+        if($('#id_fecha_fin').val()==''){
+            swal('Ingrese la fecha Fin');
+            return;
+        }
+        
+
+        obtenerNumeroDias();
+    });
+
+    function obtenerNumeroDias(){
+        var fechaInicio= $('#id_fecha_inicio').val();
+        var fechaFin= $('#id_fecha_fin').val();
+
+        var DateInicio=new Date(fechaInicio.replaceAll('/','-'));
+        var DateFin=new Date(fechaFin.replaceAll('/','-'));
+        
+        if(DateInicio>DateFin){
+            swal('La fecha Inicio no puede ser mayor a la fecha fin');
+            var fecha=moment(new Date()).format("yyyy-MM-DD");
+            $('.datepicker').val(fecha);
+            return;
+        }
+        var fecha1 = moment(DateInicio);
+        var fecha2 = moment(DateFin);
+
+        var dias=fecha2.diff(fecha1, 'days');
+        diasDisponibles=parseInt(dias);
+        $('#id_num_sesion').val(diasDisponibles);
+       // llenarCombosDiasDisponibles(diasDisponibles);
+    }
+
+    /* function llenarCombosDiasDisponibles(dias){
+        $('.fechasDisponibles options').remove();
+        for (var i = 0; i <= dias; i++) {
+            var newOption='<option value="'+i+'">'+i+'</option>';
+            $('.fechasDisponibles').append(newOption);
+        }
+
+    } */
+    $( "#btnGuardarRutina" ).click(function( event ) {
+        var fechaInicio= $('#id_fecha_inicio').val();
+        var fechaFin= $('#id_fecha_fin').val();
+
+        var DateInicio=new Date(fechaInicio.replaceAll('/','-'));
+        var DateFin=new Date(fechaFin.replaceAll('/','-'));
+        
+        if(DateInicio>DateFin){
+            swal('La fecha Inicio no puede ser mayor a la fecha fin');
+            event.preventDefault();
+            return;
+        }
+
+        if($('#id_num_sesion').val()== '' || $('#id_num_sesion').val()== '0'){
+            swal('El núnero de sesiones no puede ser 0 o vacio');
+            event.preventDefault();
+            return;
+        }
+
+        if($('.verificarJuego:checked').length == 0){
+            swal('Debe activar almenos un juego');
+            event.preventDefault();
+            return;
+        }
+        
+    });
+ </script>
+ {% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'Home/index.html' %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <form method="post"  enctype="multipart/form-data">
+        
+        {% csrf_token %} 
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Registro de Paciente</h5>
+            </div>
+            <div class="card-body">
+                <input type="hidden"  name="password" value="NA">
+                <input type="hidden" id="id_email" name="email" maxlength="150">
+                <input type="hidden" id="id_historiaClinica" name="historiaClinica" value="NO">
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Nombres: </label><span style=" color: red">*</span>
+                        {{ form2.first_name }}
+                        {{ form2.first_name.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Apellidos: </label><span style=" color: red">*</span>
+                        {{ form2.last_name }}
+                        {{ form2.last_name.errors }}
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Cédula: </label><span style=" color: red">*</span>
+                        {{ form.cedula }}
+                        {{ form.cedula.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Email: </label><span style=" color: red">*</span>
+                        {{ form2.username }}
+                        <!-- {{ form2.username.errors }} -->
+                    </div>
+                    
+
+                </div>
+               
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Teléfono: </label><span style=" color: red">*</span>
+                        {{ form.telefono }}
+                        {{ form.telefono.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Fecha Cita: </label><span style=" color: red">*</span>
+                        {{ form.fechaCita }}
+                        {{ form.fechaCita.errors }}
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Patología Aparente: </label><span style=" color: red">*</span>
+                        {{ form.patologia }}
+                        {{ form.patologia.errors }}
+                    </div>
+                    
+                </div>
+            
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-primary"   type="submit">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+{% for message in messages %}
+    <div class="alert {{message.tags}}" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{ message }}
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+
+
+<script type="text/javascript">
+   
+    $(document).ready(function() {
+        
+        /* $('.SoloLetras').keypress(function(e) {
+            if(e.which < 97  || e.which > 122  || e.which == 32) {
+                e.preventDefault();
+            }
+        }); */
+        $('.SoloLetras').keypress(function(e) {
+            if((e.which < 97 /* a */ || e.which > 122) && e.which!=32  /* z */) {
+                e.preventDefault();
+            }
+        });
+        $('#id_cedula').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+        $('#id_telefono').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+        $('#id_username').keyup(function() {
+            var email = this.value;
+            $('#id_email').val(email);
+        });
+     });
+     
+    
+ </script>
+ {% endblock %}

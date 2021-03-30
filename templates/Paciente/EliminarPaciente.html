@@ -1,0 +1,46 @@
+
+{% extends 'Home/index.html' %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <form method="post" id="PacienteNuevo" >
+        
+        {% csrf_token %} 
+        <div class="card">
+            <div class="card-body">
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <h4>¿Está seguro que desea eliminar el registro de <b>{{object.user.first_name}}  {{object.user.last_name}}</b>?
+                
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-danger"   type="submit">
+                            Sí, Eliminar
+                        </button>
+                        <a href="{% url 'Paciente:listarPaciente' %}" class="btn btn-primary">Cancelar</a>
+
+                    </div>
+                </div>
+               
+                
+            </div>
+            
+        </div>
+
+
+    </form>
+</div>
+<script type="text/javascript">
+   
+   $(document).ready(function() {
+        $('#id_cedula').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+    });
+    
+   
+</script>
+{% endblock %}
+
+

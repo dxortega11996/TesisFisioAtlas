@@ -1,0 +1,738 @@
+{% extends 'Home/index.html' %}
+
+{% block content %}
+<style>
+    .cabecera{
+        background: #D5F5E3 ;
+    }
+    .textoAmplio{
+        height: 90px !important;
+    }
+</style>
+<div class="col-md-12">
+    <form method="post"  enctype="multipart/form-data">
+        
+        {% csrf_token %} 
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Actualizar historia clínica</h5>
+            </div>
+            <div class="card-body">
+                <input type="hidden" name="historiaClinica" value="SI">
+                <!-- informacion de l doctor -->
+                <div class="row cabecera">
+                    <div class="col-md-12 border font-weight-bold p-2">
+                        BLOQUE A: Datos Generales de la Unidad Operativa
+                    </div>
+                </div>
+                <div class="row border">
+                    
+                    
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-3 p-2 ">Fecha de Consulta/Atención:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{ form.fechaCita.initial|date:'d-m-Y' }}</div>
+                            <div class="col-md-3 p-2">Lugar de Atención:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">Latacunga</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-3 p-2">Nombre Unidad Operativa: </div>
+                            <div class="col-md-3 p-2 font-weight-bold">CENTRO DE TERAPIA FISICA Y DEPORTIVA “FisioAtlas”</div>
+                            <div class="col-md-3 p-2">Institución del Sistema:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">Red Privada</div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-2 p-2">Provincia: </div>
+                            <div class="col-md-2 p-2 font-weight-bold">Cotopaxi</div>
+                            <div class="col-md-2 p-2">Cantón:</div>
+                            <div class="col-md-2 p-2 font-weight-bold">Latacunga</div>
+                            <div class="col-md-2 p-2">Parroquia:</div>
+                            <div class="col-md-2 p-2 font-weight-bold">San Buena Aventura</div>
+                        </div>
+                        
+                    </div>
+
+                    
+                        
+                    
+                </div>
+                
+                <div class="row cabecera mt-4">
+                    <div class="col-md-12 border font-weight-bold p-2">
+                        BLOQUE B: Datos del Profesional
+                    </div>
+                </div>
+                <div class="row border">
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-3 p-2 ">Nombres y Apellidos:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{user.first_name}} {{user.last_name}}</div>
+                            <div class="col-md-3 p-2">Fecha de Nacimiento:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.fecha_nacimiento|date:'d-m-Y' }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-3 p-2 ">Nacionalidad:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.nacionalidad}}</div>
+                            <div class="col-md-3 p-2">Cédula:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.cedula}}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <!-- <div class="col-md-3 p-2 ">Sexo:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">por definir</div> -->
+                            <div class="col-md-3 p-2">Autoidentificación:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.autoidentificacion}}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-3 p-2 ">Formación personal:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.formacion}}</div>
+                            <div class="col-md-3 p-2">Código MSP:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.codigoMSP}}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-3 p-2 ">Contactos:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.telefono}}</div>
+                            <div class="col-md-3 p-2">Correo:</div>
+                            <div class="col-md-3 p-2 font-weight-bold">{{profesional.user.email}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row cabecera mt-4">
+                    <div class="col-md-12 border font-weight-bold p-2">
+                        BLOQUE C: Datos del Paciente
+                    </div>
+                </div>
+                <input type="hidden" name="paciente" value="{{ id }}">
+                <input type="hidden"  name="password" value="NA">
+                <input type="hidden" id="id_email" name="email" maxlength="150" value="{{ form2.email.initial }}">
+                
+                <div class="row border">
+                    <div class="col-md-12 mt-2">
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Nombres: </label><span style=" color: red">*</span>
+                                {{ form2.first_name }}
+                                {{ form2.first_name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Apellidos: </label><span style=" color: red">*</span>
+                                {{ form2.last_name }}
+                                {{ form2.last_name.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Cédula: </label><span style=" color: red">*</span>
+                                {{ form.cedula }}
+                                {{ form.cedula.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Email: </label><span style=" color: red">*</span>
+                                {{ form2.username }}
+                                <!-- {{ form2.username.errors }} -->
+                            </div>
+                            
+        
+                        </div>
+                   
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Teléfono:</label><span style=" color: red">*</span>
+                                {{ form.telefono }}
+                                {{ form.telefono.errors }}
+                            </div>
+                            <div class="col-md-6" style="display: none;">
+                                <label class="font-weight-bold">Fecha Cita: </label><span style=" color: red">*</span>
+                                {{ form.fechaCita }}
+                                {{ form.fechaCita.errors }}
+                            </div>
+                            <div class="col-md-6" >
+                                <label class="font-weight-bold">Fecha Atención: </label><span style=" color: red">*</span>
+                                {{ form3.fecha_atencion }}
+                                {{ form3.fecha_atencion.errors }}
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="font-weight-bold">Patología Aparente:</label><span style=" color: red">*</span>
+                                {{ form.patologia }}
+                                {{ form.patologia.errors }}
+                            </div>
+                            
+                        </div>
+
+                        
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Fecha Nacimiento: </label><span style=" color: red">*</span>
+                                {{ form3.fecha_nacimiento }}
+                                {{ form3.fecha_nacimiento.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Sexo: </label><span style=" color: red">*</span>
+                                {{ form3.sexo }}
+                                {{ form3.sexo.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Estado Civil: </label><span style=" color: red">*</span>
+                                {{ form3.estado_civil }}
+                                {{ form3.estado_civil.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Provincia de residencia: </label><span style=" color: red">*</span>
+                                <select name="provinciaResidencia" id="provinciaResidencia" class="form-control" >
+                                    <option value="">-----------------</option>
+                                    {% for i in provincias %}
+                                        <option value="{{ i.id }}">{{ i.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Cantón de residencia: </label><span style=" color: red">*</span>
+                                
+                                <select name="cantonResidencia" id="id_canton" class="form-control">
+                                    <option value="">---Seleccione---</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Parroquia: </label><span style=" color: red">*</span>
+                                {{ form3.parroquia }}
+                                {{ form3.parroquia.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Dependiente: </label><span style=" color: red">*</span>
+                                {{ form3.dependiente }}
+                                {{ form3.dependiente.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Nombre Representante: </label><span style=" color: red">*</span>
+                                {{ form3.nombre_representante }}
+                                {{ form3.nombre_representante.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Cédula Representante: </label><span style=" color: red">*</span>
+                                {{ form3.cedula_representante }}
+                                {{ form3.cedula_representante.errors }}
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="card-title">1. SIGNOS VITALES</div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Peso: </label><span style=" color: red">*</span>
+                                {{ form3.peso }}
+                                {{ form3.peso.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Temperatura: </label><span style=" color: red">*</span>
+                                {{ form3.temperatura }}
+                                {{ form3.temperatura.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Talla: </label><span style=" color: red">*</span>
+                                {{ form3.talla }}
+                                {{ form3.talla.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Presión arterial: </label><span style=" color: red">*</span>
+                                {{ form3.presion_arterial }}
+                                {{ form3.presion_arterial.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">IMC: </label><span style=" color: red">*</span>
+                                {{ form3.imc }}
+                                {{ form3.imc.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Frecuencia respiratoria: </label><span style=" color: red">*</span>
+                                {{ form3.frec_respiratoria }}
+                                {{ form3.frec_respiratoria.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Frecuencia cardiaca: </label><span style=" color: red">*</span>
+                                {{ form3.frec_cardiaca }}
+                                {{ form3.frec_cardiaca.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="card-title">2. ANTECEDENTES PATOLÓGICOS</div>
+                        <div class="card-title "><label for="" class="mr-3">2.1. ANTECEDENTES PATOLÓGICOS PERSONALES</label> </div>
+                        <div class="card-subtitle font-weight-bold"><label for="" class="mr-3">a) Hábitos de Salud</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Actividad fisica: </label><span style=" color: red">*</span>
+                                {{ form3.actividad_fisica }}
+                                {{ form3.actividad_fisica.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Alimentación: </label><span style=" color: red">*</span>
+                                {{ form3.alimentacion }}
+                                {{ form3.alimentacion.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Consumo: </label><span style=" color: red">*</span>
+                                {{ form3.consumo }}
+                                {{ form3.consumo.errors }}
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="card-subtitle font-weight-bold"><label for="" class="mr-3">b) Medicamentos</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Nombre medicamento: </label><span style=" color: red">*</span>
+                                {{ form3.nombre_medicamento }}
+                                {{ form3.nombre_medicamento.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Nombre comercial: </label><span style=" color: red">*</span>
+                                {{ form3.nombre_comercial }}
+                                {{ form3.nombre_comercial.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Administración: </label><span style=" color: red">*</span>
+                                {{ form3.administracion }}
+                                {{ form3.administracion.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Frecuencia: </label><span style=" color: red">*</span>
+                                {{ form3.frecuencia }}
+                                {{ form3.frecuencia.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="card-subtitle font-weight-bold"><label for="" class="mr-3">c) Medicamentos</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Patologías: </label><span style=" color: red">*</span>
+                                {{ form3.patologias }}
+                                {{ form3.patologias.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Intervenciones quirúrgicas: </label><span style=" color: red">*</span>
+                                {{ form3.inter_quirurgica }}
+                                {{ form3.inter_quirurgica.errors }}
+                            </div>
+                            
+    
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="font-weight-bold">C) Patologías: </label><span style=" color: red">*</span>
+                                {{ form3.patologias }}
+                                {{ form3.patologias.errors }}
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="font-weight-bold">d) Intervenciones quirúrgicas: </label><span style=" color: red">*</span>
+                                {{ form3.inter_quirurgica }}
+                                {{ form3.inter_quirurgica.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="card-title "><label for="" class="mr-3">2.2. ANTECEDENTES PATOLÓGICOS FAMILIARES</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">HTA: </label><span style=" color: red">*</span>
+                                {{ form3.hta }}
+                                {{ form3.hta.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">DM: </label><span style=" color: red">*</span>
+                                {{ form3.dm }}
+                                {{ form3.dm.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Dislipidemias: </label><span style=" color: red">*</span>
+                                {{ form3.dislipidemias }}
+                                {{ form3.dislipidemias.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">ECV: </label><span style=" color: red">*</span>
+                                {{ form3.ecv }}
+                                {{ form3.ecv.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Alergias: </label><span style=" color: red">*</span>
+                                {{ form3.alergias }}
+                                {{ form3.alergias.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Cáncer: </label><span style=" color: red">*</span>
+                                {{ form3.cancer }}
+                                {{ form3.cancer.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Otros: </label><span style=" color: red">*</span>
+                                {{ form3.otros }}
+                                {{ form3.otros.errors }}
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">3. MOTIVO DE CONSULTA: </label><span style=" color: red">*</span>
+                                {{ form3.motivo_consulta }}
+                                {{ form3.motivo_consulta.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">4. ESTADO FUNCIONAL / NIVEL ACTIVIDAD: </label><span style=" color: red">*</span>
+                                {{ form3.estado_funcional }}
+                                {{ form3.estado_funcional.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">REVISION APARATOS / SISTEMAS: </label><span style=" color: red">*</span>
+                                {{ form3.revision_aparatos }}
+                                {{ form3.revision_aparatos.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="card-title">5. TEST / MEDICIONES</div>
+                        <div class="card-title "><label for="" class="mr-3">5.1. EXPLORACIÓN FÍSICA</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">a) Inspeción: </label><span style=" color: red">*</span>
+                                {{ form3.inspeccion }}
+                                {{ form3.inspeccion.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">b) Palpación: </label><span style=" color: red">*</span>
+                                {{ form3.palpacion }}
+                                {{ form3.palpacion.errors }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="card-title "><label for="" class="mr-3">5.2. APLICACIÓN DE PRUEBAS</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">Calificar: </label><span style=" color: red">*</span>
+                                {{ form3.calificar }}
+                                {{ form3.calificar.errors }}
+                            </div>
+                            
+                            
+                        </div>
+
+                        <div class="card-title "><label for="" class="mr-3">6. DIAGNÓSTICO</label> </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">a) Diagnóstico Clínico: </label><span style=" color: red">*</span>
+                                {{ form3.diag_clinico }}
+                                {{ form3.diag_clinico.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">a) Diagnóstico Fisioterapéutico: </label><span style=" color: red">*</span>
+                                {{ form3.diag_fisioterapeutico }}
+                                {{ form3.diag_fisioterapeutico.errors }}
+                            </div>
+                        </div>
+                        <div class="card-title "><label for="" class="mr-3">7. EXÁMENES COMPLEMENTARIOS</label> </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">Diagnostico Clínico: </label><span style=" color: red">*</span>
+                                {{ form3.examen_complementario }}
+                                {{ form3.examen_complementario.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">8. PRONÓSTICO: </label><span style=" color: red">*</span>
+                                {{ form3.pronostico }}
+                                {{ form3.pronostico.errors }}
+                            </div>
+                        </div>
+                        <div class="card-title "><label for="" class="mr-3">9. iNTERVENCIÓN</label> </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">Objetivo Inicial: </label><span style=" color: red">*</span>
+                                {{ form3.objetivo_inicialI }}
+                                {{ form3.objetivo_inicialI.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">Etapa I Objetivo de intervención: </label><span style=" color: red">*</span>
+                                {{ form3.objetivo_intervencionI }}
+                                {{ form3.objetivo_intervencionI.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">Plan de tratamiento: </label><span style=" color: red">*</span>
+                                {{ form3.plan_tratamientoI }}
+                                {{ form3.plan_tratamientoI.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">Etapa II  Objetivo de intervención: </label><span style=" color: red">*</span>
+                                {{ form3.objetivo_inicialII }}
+                                {{ form3.objetivo_inicialII.errors }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">Plan de tratamiento: </label><span style=" color: red">*</span>
+                                {{ form3.plan_tratamientoII }}
+                                {{ form3.plan_tratamientoII.errors }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="row form-group">
+                            
+                            <div class="col-md-6">
+                                <label class="card-title font-weight-bold">Etapa IIi  Objetivo de intervención: </label><span style=" color: red">*</span>
+                                {{ form3.objetivo_intervencionIII }}
+                                {{ form3.objetivo_intervencionIII.errors }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">Plan de tratamiento: </label><span style=" color: red">*</span>
+                                {{ form3.plan_tratamientoIII }}
+                                {{ form3.plan_tratamientoIII.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">Plan de cuidado: </label><span style=" color: red">*</span>
+                                {{ form3.plan_cuidadoIII }}
+                                {{ form3.plan_cuidadoIII.errors }}
+                            </div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">10. RESULTADOS: </label><span style=" color: red">*</span>
+                                {{ form3.resultados }}
+                                {{ form3.resultados.errors }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            
+                            <div class="col-md-12">
+                                <label class="card-title font-weight-bold">11. ANEXOS: </label><span style=" color: red">*</span>
+                                {{ form3.anexos }}
+                                {{ form3.anexos.errors }}
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                
+            
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-primary"   type="submit">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+
+    </form>
+    
+</div>
+{% for message in messages %}
+    <div class="alert {{message.tags}}" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{ message }}
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+
+
+<script type="text/javascript">
+   
+    $(document).ready(function() {
+        
+        
+
+        
+        $('.SoloLetras').keypress(function(e) {
+            if(e.which < 97 /* a */ || e.which > 122 /* z */) {
+                e.preventDefault();
+            }
+        });
+        $('#id_cedula').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+        $('#id_telefono').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+        $('#id_username').keyup(function() {
+            var email = this.value;
+            $('#id_email').val(email);
+        });
+        
+        if('{{ form3.provinciaResidencia.value }}' != 'None'){
+            $('#provinciaResidencia').val('{{ form3.provinciaResidencia.value }}');
+            buscarCantones('{{ form3.provinciaResidencia.value }}');
+        }
+        
+        if('{{form3.cantonResidencia.value}}' != 'None'){
+            $('#id_canton').val('{{form3.cantonResidencia.value}}');
+        }
+        
+     });
+     
+     $('#provinciaResidencia').change(function(){
+         
+
+         buscarCantones(this.value);
+     });
+     
+     function buscarCantones(vidProvincia){
+        $.ajax({
+            type:'GET',
+            url:'/provincia/buscarCantones/',
+            data:{
+                idProvincia: vidProvincia,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            async: false,
+            success:function(data){
+                llenarCantones(data);
+                //console.log(data);
+            },
+            error : function(){
+                 console.log('Opss');
+            }
+        });
+     }
+     function llenarCantones(arrayCantones){
+        $("#id_canton option").remove();
+        var myselect = document.getElementById('id_canton');
+        var cnt = 0;
+        var theOption = new Option;
+        theOption.text = '--Seleccione--';
+        theOption.value = '';
+        myselect.options[cnt] = theOption;
+        cnt++;
+        
+
+        if (arrayCantones.length > 0) {
+            for (var i = 0; i < arrayCantones.length; i++) {
+                var theOption = new Option;
+                theOption.text = arrayCantones[i].titulo;
+                theOption.value = arrayCantones[i].id;
+                myselect.options[cnt] = theOption;
+                cnt++;
+            }
+
+        }
+     }
+
+
+
+ </script>
+ {% endblock %}

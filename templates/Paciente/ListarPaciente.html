@@ -1,0 +1,293 @@
+{% extends 'Home/index.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/sweetalert.css' %}" rel="stylesheet">
+<script src="{% static 'assets/js/sweetalert.js' %} "></script>
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+
+
+<style>
+    .sweet-alert h2 {
+        font-size: 1.2rem;
+    }
+
+    .sweet-alert .text-muted {
+        font-size: 1.1rem;
+    }
+
+    .sa-button-container .cancel {
+        font-size: 1rem;
+    }
+
+    .sa-confirm-button-container .confirm {
+        font-size: 1rem;
+    }
+</style>
+<div class="col-md-12" style="text-align: right;">
+    <a href="{% url 'Paciente:registrarPaciente' %}" class="btn btn-primary"><i class="far fa-user"></i> Registrar
+        Paciente</a>
+
+</div>
+<div class="col-md-12 mt-3">
+
+    <div class="card">
+        <div class="card-body">
+            {% if pacientes %}
+            <table class="table table-bordered" id="tbListaPacientes">
+                <thead>
+                    <tr>
+                        <th style="display: none;">id</th>
+                        <th style="background: #9ac10f; color: #fff;">Nombres</th>
+                        <th style="background: #9ac10f; color: #fff;">Apellidos</th>
+                        <th style="background: #9ac10f; color: #fff;">Cédula</th>
+
+                        <th style="background: #9ac10f; color: #fff;">Teléfono</th>
+                        <th style="background: #9ac10f; color: #fff;">Fecha Cita</th>
+                        <th style="background: #9ac10f; color: #fff;">Estado</th>
+                        <th style="background: #9ac10f; color: #fff;">Acción</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {% for i in pacientes %}
+                    <tr>
+                        <td style="display: none;">{{i.id}}</td>
+                        <td><a href="#">{{i.user.first_name}}</a></td>
+                        <td>{{i.user.last_name}}</td>
+                        <td>{{i.cedula}}</td>
+                        <td>{{i.telefono}}</td>
+                        <td>{{i.fechaCita|date:'d-m-Y'}} </td>
+                        {% if i.historiaClinica == 'SI' %}
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" class="verificarChekeados" id="chkidInput" disabled checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                        <td><a href="{% url 'Paciente:visualizarHCPaciente' i.id  %}" class="btn btn-primary">Historia
+                                Clínica</a></td>
+                        
+                        {% else %}
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" class="verificarChekeados" id="chkidInput_{{i.id}}"
+                                    onchange="activarHistoriaClinica('{{i.id}}')">
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                        
+                        <td><button type="button" class="btn btn-danger"
+                                onclick="confirmarEliminacion('{{i.id}}')">Eliminar</button></td>
+                        {% endif %}
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+            <h4>No existen pacientes registrados</h4>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function activarHistoriaClinica(idPaciente) {
+
+        swal({
+            title: "¿Esta seguro que desea activar la historia clinica?",
+            //text: "Se eliminara el archivo",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: 'btn-info',
+            cancelButtonClass: 'btn-danger',
+            confirmButtonText: 'Si, continuar',
+            cancelButtonText: 'Cancelar',
+            closeOnConfirm: false,
+            //closeOnCancel: false
+        },
+            function (confirmar) {
+                if (confirmar) {
+
+                    activarHC(idPaciente);
+                } else {
+                    $("#chkidInput_" + idPaciente).prop('checked', false);
+                }
+
+
+            });
+
+    }
+
+    function activarHC(idPaciente) {
+        $.ajax({
+            type: 'POST',
+            url: '/paciente/activarHistoriaClinica/',
+            data: {
+                idPaciente: idPaciente,
+
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                location.reload();
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+
+    function confirmarEliminacion(idPaciente) {
+        swal({
+            title: "Esta seguro?",
+            text: "Se eliminara el archivo",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: 'btn-info',
+            cancelButtonClass: 'btn-danger',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+            closeOnConfirm: false,
+            //closeOnCancel: false
+        },
+            function () {
+                eliminarPaciente(idPaciente);
+
+            });
+    }
+
+    function eliminarPaciente(idPaciente) {
+        $.ajax({
+            type: 'POST',
+            url: '/paciente/eliminarPacineteV2/',
+            data: {
+                idPaciente: idPaciente,
+
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                location.reload();
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+</script>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/jquery.dataTables4.min.js' %} "></script>
+<script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %} "></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#tbListaPacientes').DataTable({
+            order: [[0, "desc"]],
+            language: {
+                
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
+                }
+            }
+        });
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'Home/index.html' %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <form method="post" id="PacienteNuevo" >
+        
+        {% csrf_token %} 
+        <div class="card">
+            <div class="card-body">
+                <div class="row form-group">
+                    <input type="hidden"  name="password" value="NA">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Cédula: </label><span style=" color: red">*</span>
+                        {{ form.cedula }}
+                        {{ form.cedula.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">User Name: </label><span style=" color: red">*</span>
+                        {{ form2.username }}
+                        {{ form2.username.errors }}
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Nombres: </label><span style=" color: red">*</span>
+                        {{ form2.first_name }}
+                        {{ form2.first_name.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Apellidos: </label><span style=" color: red">*</span>
+                        {{ form2.last_name }}
+                        {{ form2.last_name.errors }}
+                    </div>
+                    
+                </div>
+                
+                
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Teléfono: </label><span style=" color: red">*</span>
+                        {{ form.telefono }}
+                        {{ form.telefono.errors }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Fecha Cita: </label><span style=" color: red">*</span>
+                        {{ form.fechaCita }}
+                        {{ form.fechaCita.errors }}
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-primary"   type="submit">
+                    Guardar
+                </button>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<script type="text/javascript">
+   
+   $(document).ready(function() {
+        $('#id_cedula').on('input', function () { 
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
+    });
+    
+   
+</script>
+{% endblock %}
+
