@@ -12,7 +12,7 @@ from apps.Profesional.models import Profesional
 def inicio(request):
     usuario = request.user.pk
     perfil = Profesional.objects.get(user_id=request.user.id)
-    print("el ide del ususario es:")
+   
     data={}
     return render(request, 'Home/index.html',{'Profesional':perfil})
 from django.contrib.auth import login

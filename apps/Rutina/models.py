@@ -13,3 +13,4 @@ class Rutina(models.Model):
     preescripcion = models.CharField(max_length=300, blank=True, null=True)
     mano_derecha = models.BooleanField(blank=True, null=True)
     historiaClinica = models.ForeignKey(HistoriaClinica, on_delete=models.CASCADE, blank=True, null=True)
+    estado= models.CharField(max_length=30,blank=True, null=True)

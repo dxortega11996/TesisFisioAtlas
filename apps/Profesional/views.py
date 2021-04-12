@@ -17,7 +17,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import update_session_auth_hash
 
 from django.core.files.storage import FileSystemStorage
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -125,6 +125,8 @@ class ActualizarProfesional(UpdateView):
         else:
             messages.error(request,('Por favor intente nuevamente'))
             return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
+
 
 class listarProfesional(ListView):
     model = Profesional

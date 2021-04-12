@@ -8,23 +8,37 @@
 
 </div> -->
 <style>
-    .sweet-alert h2{
-        font-size: 1.2rem ;
+    .sweet-alert h2 {
+        font-size: 1.2rem;
     }
-    .sweet-alert .text-muted{
+
+    .sweet-alert .text-muted {
         font-size: 1.1rem;
     }
-    .sa-button-container .cancel{
+
+    .sa-button-container .cancel {
         font-size: 1rem;
     }
+
     .sa-confirm-button-container .confirm {
-        font-size: 1rem ;
+        font-size: 1rem;
     }
 </style>
+<input type="hidden" id="hfIdRutina" value="{{rutina.id}}">
+<input type="hidden" id="hfEstadoRutina" value="{{rutina.estado}}">
+<input type="hidden" id="hfNoFinalizados" value="{{ControlesNoFinalizados}}">
+
 <div class="col-md-12 mt-3">
 
     <div class="card">
         <div class="card-header">
+           
+
+
+
+
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
                     <h4 class="card-title">Información de Actividad </h>
@@ -36,13 +50,13 @@
                     <label class="font-weight-bold">Fecha Inicio:</label>
                 </div>
                 <div class="col-md-3">
-                    <label for="">{{rutina.fecha_inicio}}</label>
+                    <label for="">{{rutina.fecha_inicio|date:'d-m-Y'}}</label>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <label class="font-weight-bold">Fecha Fin:</label>
                 </div>
                 <div class="col-md-2">
-                    <label for="">{{rutina.fecha_fin}}</label>
+                    <label for="">{{rutina.fecha_fin|date:'d-m-Y'}}</label>
                 </div>
             </div>
             <div class="row mt-2">
@@ -61,246 +75,97 @@
                     {% else %}
                     <label for="">Izquierda</label>
                     {% endif %}
+
+                </div>
+            </div>
+            <hr>
+            {% if controles %}
+            <div class="row" style="justify-content: center;">
+
+                {% for i in controles %}
+                <div class="col-md-4">
+                    <div class="card text-center m-3 ">
+                        <div class="card-header text-primary ">
+                            <h5 class="card-title font-weight-bold text-dark">Control Nº {{i.numeroSesion}}</h5>
+                            
+                            
+                        </div>
+                        <div class="card-body text-left">
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="font-weight-bold">Fecha Visita:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    {% if i.fecha_visita == None %}
+                                    <label class="font-weight-norma">Sin Registrar</label>
+                                    {% else %}
+                                    <label class="font-weight-norma">{{i.fecha_visita|date:'d-m-Y'}}</label>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-5">
+                                    <label class="font-weight-bold">Valoración:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    {% if i.valoracion == None %}
+                                    <label class="font-weight-norma">Sin Registrar</label>
+                                    {% else %}
+                                    <label class="font-weight-norma">{{i.valoracion}}</label>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-5">
+                                    <label class="font-weight-bold">Grado de dolor:</label>
+                                </div>
+                                <div class="col-md-7">
+                                    {% if i.dolor == None %}
+                                    <label class="font-weight-norma">Sin Registrar</label>
+                                    {% else %}
+                                    <label class="font-weight-norma">{{i.dolor}}</label>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr class="my-1">
+                        <div class="card-body text-muted text-right py-2">
+
+                            <button class="btn btn-success" type="button"
+                                onclick="verIntentos('{{i.id}}','{{i.numeroSesion}}','{{i.juego.nombre}}')">
+                                <i class="fas fa-eye"></i> Ver Intentos</button>
+                            {% if i.estado == None %}
+                            <button class="btn btn-info" type="button"
+                                onclick="editarSesion('{{i.id}}')">
+                                <i class="fas fa-user-edit"></i> Editar</button>
+
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <h4 class="mt-4">Este juego no fue activado</h4>
+            {% endif %}
+            
+            <div class="row" id="divBtnFinalizar">
+                <div class="col-md-12 text-center">
+                    <hr>
+                    <button type="button" id="btnFinalizar" class="btn btn-primary">
+                        <i class="fas fa-times-circle"></i> Finalizar Rutina
+                    </button>
+                   
                     
                 </div>
             </div>
-            
-            
-            
-
-        </div>
-        <div class="card-body">
-            
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link active" id="Saltarin-tab" data-toggle="tab" href="#Saltarin" role="tab" aria-controls="Saltarin" aria-selected="true">Saltarin</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="Guerra-tab" data-toggle="tab" href="#Guerra" role="tab" aria-controls="Guerra" aria-selected="false">Guerra</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="Packman-tab" data-toggle="tab" href="#Packman" role="tab" aria-controls="Packman" aria-selected="false">Packman</a>
-                </li>
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="Saltarin" role="tabpanel" aria-labelledby="Saltarin-tab">
-                    
-                    {% if controlesJuego1 %}
-                    <div class="row" style="justify-content: center;">
-
-                        {% for i in controlesJuego1 %}
-                        <div class="col-md-4">
-                            <div class="card text-center m-3">
-                                <div class="card-header">
-                                    <h5 class="card-title">Control Nº {{i.numeroSesion}} </h5>
-                                </div>
-                                <div class="card-body text-left">
-                                    
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Fecha Visita:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.fecha_visita == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.fecha_visita}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Valoración:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.valoracion == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.valoracion}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Grado de dolor:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.dolor == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.dolor}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div class="card-footer text-muted text-right">
-
-                                    <button class="btn btn-success" type="button" onclick="verIntentos('{{i.id}}','{{i.numeroSesion}}','{{i.juego.nombre}}')">Ver Intentos</button>
-                                    {% if i.fecha_visita == None and i.valoracion == None and i.dolor == None %}
-                                        <button class="btn btn-info" type="button" onclick="editarSesion('{{i.id}}')">Editar</button>
-                                    
-                                    {% endif %}
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                        {% endfor %}
-                    </div>
-
-                    {% else %}
-                    <h4 class="mt-4">Este juego no fue activado</h4>
-                    {% endif %}
 
 
-
-                </div>
-                <div class="tab-pane fade" id="Guerra" role="tabpanel" aria-labelledby="Guerra-tab">
-                    {% if controlesJuego2 %}
-                    <div class="row" style="justify-content: center;">
-
-                        {% for i in controlesJuego2 %}
-                        <div class="col-md-4">
-                            <div class="card text-center m-3">
-                                <div class="card-header">
-                                    <h5 class="card-title">Control Nº {{i.numeroSesion}} </h5>
-                                </div>
-                                <div class="card-body text-left">
-                                    
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Fecha Visita:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.fecha_visita == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.fecha_visita}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Valoración:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.valoracion == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.valoracion}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Grado de dolor:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.dolor == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.dolor}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div class="card-footer text-muted text-right">
-
-                                    <button class="btn btn-success" type="button" onclick="verIntentos('{{i.id}}','{{i.numeroSesion}}','{{i.juego.nombre}}')">Ver Intentos</button>
-                                    {% if i.fecha_visita == None and i.valoracion == None and i.dolor == None %}
-                                        <button class="btn btn-info" type="button" onclick="editarSesion('{{i.id}}')">Editar</button>
-                                    
-                                    {% endif %}
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                        {% endfor %}
-                    </div>
-
-                    {% else %}
-                        <h4 class="mt-4">Este juego no fue activado</h4>
-                    {% endif %}
-                </div>
-                <div class="tab-pane fade" id="Packman" role="tabpanel" aria-labelledby="Packman-tab">
-                    {% if controlesJuego3 %}
-                    <div class="row" style="justify-content: center;">
-
-                        {% for i in controlesJuego3 %}
-                        <div class="col-md-4">
-                            <div class="card text-center m-3">
-                                <div class="card-header">
-                                    <h5 class="card-title">Control Nº {{i.numeroSesion}} </h5>
-                                </div>
-                                <div class="card-body text-left">
-                                    
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Fecha Visita:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.fecha_visita == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.fecha_visita}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Valoración:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.valoracion == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.valoracion}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-md-5">
-                                            <label class="font-weight-bold">Grado de dolor:</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            {% if i.dolor == None %}
-                                            <label class="font-weight-norma">Sin Registrar</label>
-                                            {% else %}
-                                            <label class="font-weight-norma">{{i.dolor}}</label>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div class="card-footer text-muted text-right">
-
-                                    <button class="btn btn-success" type="button" onclick="verIntentos('{{i.id}}','{{i.numeroSesion}}','{{i.juego.nombre}}')">Ver Intentos</button>
-                                    {% if i.fecha_visita == None and i.valoracion == None and i.dolor == None %}
-                                        <button class="btn btn-info" type="button" onclick="editarSesion('{{i.id}}')">Editar</button>
-                                    
-                                    {% endif %}
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                        {% endfor %}
-                    </div>
-
-                    {% else %}
-                        <h4 class="mt-4">Este juego no fue activado</h4>
-                    {% endif %}
-                </div>
-              </div>
-
-
-            
 
         </div>
     </div>
@@ -354,7 +219,7 @@
                             <option value="9">9</option>
                             <option value="10">10</option>
                         </select>
-                        
+
                     </div>
                 </div>
             </div>
@@ -372,7 +237,9 @@
     <div class="modal-dialog" role="document" style="max-width: 750px !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Intentos Sesión Nº&nbsp<h5 id="lblNumeroIntento" style="margin-top:3px;"></h5> </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Intentos Sesión Nº&nbsp<h5 id="lblNumeroIntento"
+                        style="margin-top:3px;"></h5>
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -393,24 +260,25 @@
                                 </tr>
                             </thead>
                             <tbody id="listaIntentos">
-    
+
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="row p-2">
-                    <div class="col-md-12 text-center" >
-                        <label class="font-weight-bold" id="lblGradoDolorModal" ></label>
+                    <div class="col-md-12 text-center">
+                        <label class="font-weight-bold" id="lblGradoDolorModal"></label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-               
+
             </div>
         </div>
     </div>
 </div>
+
 
 {{ Inetentos|json_script:"intentosScript" }}
 {{ Juegos|json_script:"juegosScript" }}
@@ -422,184 +290,233 @@
 
 <script type="text/javascript">
     var intentosArray = new Array();
-    var temp= new Array();
-    temp=[];
+    var temp = new Array();
+    temp = [];
     temp = JSON.parse(document.getElementById('intentosScript').textContent);
-    
+
     var juegosArray = new Array();
-    var tempJuegos= new Array();
-    tempJuegos=[];
+    var tempJuegos = new Array();
+    tempJuegos = [];
     tempJuegos = JSON.parse(document.getElementById('juegosScript').textContent);
 
     var progresosArray = new Array();
-    var tempProgresos= new Array();
-    tempProgresos=[];
+    var tempProgresos = new Array();
+    tempProgresos = [];
     tempProgresos = JSON.parse(document.getElementById('progresosScript').textContent);
 
-
+   
     $(document).ready(function () {
-       
+
         $('.SoloLetras').keypress(function (e) {
             if ((e.which < 97 /* a */ || e.which > 122) && e.which != 32  /* z */) {
                 e.preventDefault();
             }
         });
-        $('#txtValoracion').keypress(function (e) {
-            if ((e.which < 97 /* a */ || e.which > 122) && e.which != 32  /* z */) {
-                e.preventDefault();
-            }
-        });
-        /* $('#txtValoracion').on('input', function () { 
-            this.value = this.value.replace(/[^0-9]/g,'');
-        }); */
-        /* $('#id_telefono').on('input', function () { 
-            this.value = this.value.replace(/[^0-9]/g,'');
-        });
-        $('#id_username').keyup(function() {
-            var email = this.value;
-            $('#id_email').val(email);
-        }); */
 
-        setTimeout(function(){
-            intentosArray=JSON.parse(temp);
-            juegosArray=JSON.parse(tempJuegos);
-            progresosArray=JSON.parse(tempProgresos);
+        if( $('#hfEstadoRutina').val() == 'FINALIZADO'){
+            $('#divBtnFinalizar').empty();
+        }
+        
+
+
+        setTimeout(function () {
+            intentosArray = JSON.parse(temp);
+            juegosArray = JSON.parse(tempJuegos);
+            progresosArray = JSON.parse(tempProgresos);
             
         }, 500);
     });
 
-    function limpiarCampos(){
+    function limpiarCampos() {
         $('#txtFechaVisita').val("");
         $('#ddlDolor').val("");
         $('#txtValoracion').val("");
     }
     function editarSesion(idSesion) {
-        
+
         limpiarCampos();
         $("#hfIdSesion").val(idSesion);
         $('#modalEditarSesion').modal("show");
     }
 
-    function validarCampos(){
-        if($('#txtFechaVisita').val() == ''){
-            swal("Ingrese fecha visita")
+    function validarCampos() {
+        if ($('#txtFechaVisita').val() == '') {
+            swal("Ingrese fecha visita");
             return;
         }
-        if($('#txtValoracion').val() == ''){
-            swal("Ingrese la valoraciòn")
+        if ($('#txtValoracion').val() == '') {
+            swal("Ingrese la valoraciòn");
             return;
         }
-        if($('#ddlDolor').val() == ''){
-            swal("Seleccione el grado de dolor")
+        if ($('#ddlDolor').val() == '') {
+            swal("Seleccione el grado de dolor");
             return;
         }
 
         swal({
-          title: "Esta seguro que desea guardar los datos?",
-          //text: "Si, continuar",
-          type: "info",
-          showCancelButton: true,
-          confirmButtonClass: 'btn-info',
-          confirmButtonText: 'Si, Guardar',
-          cancelButtonText: 'Cancelar',
-          closeOnConfirm: true,
-          //closeOnCancel: false
+            title: "Esta seguro que desea guardar los datos?",
+            //text: "Si, continuar",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonClass: 'btn-info',
+            confirmButtonText: 'Si, Guardar',
+            cancelButtonText: 'Cancelar',
+            closeOnConfirm: true,
+            //closeOnCancel: false
         },
-        function(){
-            actualizarSesion();
-            
-        });
+            function () {
+                actualizarSesion();
+
+            });
     }
 
 
-    function actualizarSesion(){
+    function actualizarSesion() {
         $.ajax({
-            type:'POST',
-            url:'/paciente/actualizarSesion/',
-            data:{
+            type: 'POST',
+            url: '/paciente/actualizarSesion/',
+            data: {
                 idSesion: $("#hfIdSesion").val(),
-                fechaVisita:$("#txtFechaVisita").val(),
-                valoracion:$("#txtValoracion").val(),
-                dolor:$("#ddlDolor").val(),
+                fechaVisita: $("#txtFechaVisita").val(),
+                valoracion: $("#txtValoracion").val(),
+                dolor: $("#ddlDolor").val(),
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
-            success:function(data){
+            success: function (data) {
                 swal("Ingresado");
                 location.reload();
-                
-                
+
+
             },
-            error : function(data){
+            error: function (data) {
                 console.log(data);
             }
         });
     }
 
-    function verIntentos(idcontro,numeroSesion,tituloJuego){
+    function verIntentos(idcontro, numeroSesion, tituloJuego) {
         $('#listaIntentos').empty();
         $('#lblNumeroIntento').text(numeroSesion);
-        console.log(idcontro);
-        
-
-        var vIntentos =  intentosArray.filter(function(element) {
+        var vIntentos = intentosArray.filter(function (element) {
             return element.fields.control == idcontro;
         });
-        
-
         for (var i = 0; i < vIntentos.length; i++) {
+            var fecha = vIntentos[i].fields.fechaHora;
+            var fechaHora = formatoFecha(fecha);
 
+            var juegoN= juegosArray.find(
+                function(j){
+                    return j.pk == vIntentos[i].fields.tipoJuego;
+                }
+            );
 
-            var fecha=vIntentos[i].fields.fechaHora;
-            var fechaHora=formatoFecha(fecha);
-            
-            var newTr='<tr>'+
-                    '<td>'+tituloJuego+'</td>'+
-                    '<td>'+vIntentos[i].fields.dificultad+'</td>'+
-                    '<td>'+(i+1)+'</td>'+
-                    '<td>'+vIntentos[i].fields.puntaje+'</td>'+
-                    '<td>'+vIntentos[i].fields.tiempo+' Seg</td>'+
-                    '<td>'+fechaHora+'</td>'+
+            var newTr = '<tr>' +
+                '<td>' + juegoN.fields.nombre + '</td>' +
+                '<td>' + vIntentos[i].fields.dificultad + '</td>' +
+                '<td>' + (i + 1) + '</td>' +
+                '<td>' + vIntentos[i].fields.puntaje + '</td>' +
+                '<td>' + vIntentos[i].fields.tiempo + ' Seg</td>' +
+                '<td>' + fechaHora + '</td>' +
                 +'</tr>';
-                $('#listaIntentos').append(newTr);
+            $('#listaIntentos').append(newTr);
         }
 
-        var gradodolor=progresosArray.find(
-            function(elemento){
+        var gradodolor = progresosArray.find(
+            function (elemento) {
                 return elemento.fields.control == idcontro;
             }
         );
 
-        if(gradodolor){
-            $('#lblGradoDolorModal').html('Grado de Dolor: '+gradodolor.fields.gradoDolor);
-        }else{
+        if (gradodolor) {
+            $('#lblGradoDolorModal').html('Grado de Dolor: ' + gradodolor.fields.gradoDolor);
+        } else {
             $('#lblGradoDolorModal').html('');
         }
 
         $('#modalIntentos').modal('show');
     }
 
-    function formatoFecha(fecha){
-        var fechaReturn='';
-        if(fecha !='' || fecha != null){
-            var fech2=fecha.replace('Z','');
-            fechaReturn= moment(new Date(fech2)).format("DD/MM/YYYY HH:mm:ss");
+    function formatoFecha(fecha) {
+        var fechaReturn = '';
+        if (fecha != '' || fecha != null) {
+            var fech2 = fecha.replace('Z', '');
+            fechaReturn = moment(new Date(fech2)).format("DD/MM/YYYY HH:mm:ss");
         }
 
         return fechaReturn;
     }
 
-    function convertirFecha(fecha){
+    function convertirFecha(fecha) {
         var d = new Date(fecha);
         var ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
         var mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
         var da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
-        var hora= d.getHours();
-        var minutos= d.getMinutes();
+        var hora = d.getHours();
+        var minutos = d.getMinutes();
 
-        return mo+' '+da+', '+ye+' '+hora+':'+minutos;
+        return mo + ' ' + da + ', ' + ye + ' ' + hora + ':' + minutos;
     }
 
-   
+    $('#btnFinalizar').click(function(e){
+        e.preventDefault();
+        var numControles= $('#hfNoFinalizados').val();
+
+        if(parseInt(numControles) > 0){
+            swal({
+                title: "Tiene controles sin finalizar, esta seguro que desea terminar esta rutina?",
+                text: "Si, continuar",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-info',
+                confirmButtonText: 'Si, Continuar',
+                cancelButtonText: 'Cancelar',
+                closeOnConfirm: true,
+                //closeOnCancel: false
+            },
+            function () {
+                finalizarRutina();
+
+            });
+        }else{
+            swal({
+                title: "Esta seguro que desea terminar esta rutina?",
+                text: "Si, continuar",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-info',
+                confirmButtonText: 'Si, Continuar',
+                cancelButtonText: 'Cancelar',
+                closeOnConfirm: true,
+                //closeOnCancel: false
+            },
+            function () {
+                finalizarRutina();
+
+            });
+        }
+    });
+
+    function finalizarRutina(){
+        $.ajax({
+            type: 'POST',
+            url: '/paciente/finalizarRutina/',
+            data: {
+                idRutina: $("#hfIdRutina").val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                
+                location.reload();
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+    }
+
 </script>
 
 {% endblock %}

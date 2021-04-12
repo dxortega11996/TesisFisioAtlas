@@ -1,0 +1,584 @@
+{% extends 'Home/index.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'assets/css/sweetalert.css' %}" rel="stylesheet">
+<script src="{% static 'assets/js/sweetalert.js' %} "></script>
+
+<script src="{% static 'assets/vendor/JSPDF/jspdf.1.5.3.js' %} "></script>
+<script src="{% static 'assets/vendor/JSPDF/jspdf.plugin.autotable.min.js' %} "></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/grid-light.js"></script>
+
+<!-- <div class="col-md-12" style="text-align: right;">
+    <a href="{% url 'Paciente:registrarPaciente' %}" class="btn btn-primary"><i class="far fa-user"></i> Registrar Paciente</a>
+
+</div> -->
+<style>
+    .solicitud {
+        width: 100%;
+        margin: auto;
+    }
+
+    .card {
+        border-radius: 10px !important;
+    }
+
+    .wrap-input100 {
+        width: 100%;
+        position: relative;
+        border-bottom: 2px solid #d9d9d9;
+        padding-bottom: 2px;
+        margin-bottom: 20px;
+    }
+
+    .label-input100 {
+
+        font-size: 14px;
+        color: #000000;
+        font-weight: bold;
+        line-height: 1.5;
+        padding-left: 5px;
+    }
+
+    .inputtext {
+        border: 1px solid #ffffff !important;
+    }
+
+    .inputtext:focus {
+        box-shadow: 0 0 0 0.2rem rgb(255 255 255 / 25%) !important;
+    }
+
+    .form-control:disabled,
+    .form-control[readonly] {
+        background-color: #fff !important;
+    }
+
+    .textoLabel {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .textoLabel label {
+        margin-bottom: 0px !important;
+    }
+
+    .btn {
+        width: 250px !important;
+        border-radius: 20px !important;
+    }
+</style>
+
+<style>
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    #container {
+        height: 400px;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+</style>
+<style>
+    .highcharts-credits {
+        visibility: hidden;
+        ;
+    }
+</style>
+
+<div id="loading"
+    style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #fff; opacity: 0.9; ">
+    <img src="https://tradinglatam.com/wp-content/uploads/2019/04/loading-gif-png-4.gif" AlternateText="Cargando ..."
+        ToolTip="Cargando ..."
+        Style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;margin: auto !important;" />
+</div>
+<input type="hidden" id="hfIdRutina" value="{{rutina.id}}">
+<input type="hidden" id="hfEstadoRutina" value="{{rutina.estado}}">
+<input type="hidden" id="hfNoFinalizados" value="{{ControlesNoFinalizados}}">
+
+<div class="col-md-12 mt-3">
+
+    <div class="card solicitud pb-3">
+        <div class="card-body pb-2">
+            <div class="row ">
+                <div class="col text-center">
+                    <h1 class="card-title">Gráficas Evolución</h1>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <figure class="highcharts-figure">
+                        <div id="container1">
+
+                        </div>
+
+                    </figure>
+                </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <figure class="highcharts-figure">
+                        <div id="container2">
+
+                        </div>
+
+                    </figure>
+                </div>
+            </div>
+
+
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="Saltarin-tab" data-toggle="tab" href="#Saltarin" role="tab"
+                                aria-controls="Saltarin" aria-selected="true">Saltarin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="Guerra-tab" data-toggle="tab" href="#Guerra" role="tab"
+                                aria-controls="Guerra" aria-selected="false">Guerra</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="Packman-tab" data-toggle="tab" href="#Packman" role="tab"
+                                aria-controls="Packman" aria-selected="false">Comelón</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="Packman-tab" data-toggle="tab" href="#Packman" role="tab"
+                                aria-controls="Packman" aria-selected="false">Evolución Final</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="Saltarin" role="tabpanel" aria-labelledby="Saltarin-tab">
+    
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <figure class="highcharts-figure">
+                                        <div id="container1">
+                    
+                                        </div>
+                                        
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Guerra" role="tabpanel" aria-labelledby="Guerra-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <figure class="highcharts-figure">
+                                        <div id="container2">
+                    
+                                        </div>
+                                        
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Packman" role="tabpanel" aria-labelledby="Packman-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <figure class="highcharts-figure">
+                                        <div id="container3">
+                    
+                                        </div>
+                                        
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div> -->
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{{ Controles|json_script:"controlesScript" }}
+{{ Inetentos|json_script:"intentosScript" }}
+{{ Juegos|json_script:"juegosScript" }}
+{{ Progresos|json_script:"progresosScript" }}
+{% endblock %}
+
+
+{% block scripts %}
+
+<script type="text/javascript">
+    var intentosArray = new Array();
+    var temp = new Array();
+    temp = [];
+    temp = JSON.parse(document.getElementById('intentosScript').textContent);
+
+    var juegosArray = new Array();
+    var tempJuegos = new Array();
+    tempJuegos = [];
+    tempJuegos = JSON.parse(document.getElementById('juegosScript').textContent);
+
+    var progresosArray = new Array();
+    var tempProgresos = new Array();
+    tempProgresos = [];
+    tempProgresos = JSON.parse(document.getElementById('progresosScript').textContent);
+
+    var controlesArray = new Array();
+    var tempControles = new Array();
+    tempControles = [];
+    tempControles = JSON.parse(document.getElementById('controlesScript').textContent);
+
+    var conj1 = 0;
+    var conj2 = 0;
+    var conj3 = 0;
+    $(document).ready(function () {
+
+
+
+        setTimeout(function () {
+            intentosArray = JSON.parse(temp);
+            juegosArray = JSON.parse(tempJuegos);
+            progresosArray = JSON.parse(tempProgresos);
+            controlesArray = JSON.parse(tempControles);
+
+            crearGraficas();
+        }, 500);
+
+
+    });
+
+
+
+    function crearGraficas() {
+        var tbjuegos1 = {
+            idj: 1,
+            idTabla: '#tbJuego1',
+            tbody: "#listaIntentosJ1",
+            idfigure: 'container1'
+        }
+        procesarDatos(tbjuegos1);
+
+        /* var tbjuegos2={
+            idj:2,
+            idTabla:'#tbJuego2',
+            tbody:"#listaIntentosJ2",
+            idfigure:'container2'
+        }
+        procesarDatos(tbjuegos2);
+
+        var tbjuegos3={
+            idj:3,
+            idTabla:'#tbJuego3',
+            tbody:"#listaIntentosJ3",
+            idfigure:'container3'
+        }
+        procesarDatos(tbjuegos3); */
+
+        $('#loading').hide();
+    }
+
+    function procesarDatos(elemento) {
+        var arrayDatosf = [];
+        var graficosAvancef = [];
+        juego = juegosArray.find(function (element) {
+            return element.pk == elemento.idj;
+        });
+
+        /* var controles = controlesArray.filter(function(element){
+            return element.fields.juego == juego.pk
+        }); 
+         */
+
+        controlesArray.forEach(function (element) {
+            var progreso = progresosArray.find(function (int) {
+                return int.fields.control == element.pk
+            });
+            var evoDoc = element.fields.dolor == null ? '0' : element.fields.dolor;
+
+            if (progreso) {
+
+                var ini = progreso.fields.gradoDolorInicial == null ? '0' : progreso.fields.gradoDolorInicial;
+                var fin = progreso.fields.gradoDolorFinal == null ? '0' : progreso.fields.gradoDolorFinal;
+
+                arrayDatosf.push({
+                    indice: 'Control N° ' + element.fields.numeroSesion,
+                    dolorInicial: parseInt(ini),
+                    dolorFinal: parseInt(fin),
+
+                });
+
+                graficosAvancef.push({
+                    indice: 'Control N° ' + element.fields.numeroSesion,
+                    evaDoctor: parseInt(evoDoc),
+                    evaInteno: parseInt(fin),
+                });
+
+            } else {
+                arrayDatosf.push({
+                    indice: 'Control N° ' + element.fields.numeroSesion,
+                    dolorInicial: 0,
+                    dolorFinal: 0,
+
+                });
+                graficosAvancef.push({
+                    indice: 'Control N° ' + element.fields.numeroSesion,
+                    evaDoctor: parseInt(evoDoc),
+                    evaInteno: 0,
+                });
+            }
+
+
+        });
+        
+        dibujarGraficaAvance(graficosAvancef)
+        dibujarGrafica(arrayDatosf, elemento.idfigure, juego.fields.nombre);
+    }
+
+    function dibujarGrafica(arrayDatosf, idFigure, nombreJuego) {
+
+        var inicial = new Array();
+        var final = new Array();
+        var indices = new Array();
+
+        for (var i = 0; i < arrayDatosf.length; i++) {
+            var vinicial = arrayDatosf[i].dolorInicial;
+            var vfinal = arrayDatosf[i].dolorFinal;
+            var Titulo = arrayDatosf[i].indice;
+            inicial.push(parseFloat(vinicial));
+            final.push(parseFloat(vfinal));
+            indices.push(Titulo);
+        }
+
+        Highcharts.chart(idFigure, {
+            chart: {
+                zoomType: 'colum'
+            },
+            title: {
+                text: 'Progreso Telerehabilitación'
+            },
+           /*  subtitle: {
+                text: 'Source: WorldClimate.com'
+            }, */
+            xAxis: [{
+                categories: indices,
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                allowDecimals: false,
+                min: 0,
+                max: 10,
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                },
+                title: {
+                    text: 'Dolor Final',//fisioterapeuta
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                }
+            }, { // Secondary yAxis
+                allowDecimals: false,
+                min: 0,
+                max: 10,
+                title: {
+                    text: 'Dolor Inicial',//eva sistema
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                opposite: true
+            }],
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 100,
+                floating: true,
+                backgroundColor:
+                    Highcharts.defaultOptions.legend.backgroundColor || // theme
+                    'rgba(255,255,255,0.25)'
+            },
+            series: [{
+                name: 'Dolor Inicial',//eva sistema
+                type: 'column',
+                yAxis: 1,
+                data: inicial,
+                tooltip: {
+                    valueSuffix: ''
+                }
+
+            }, {
+                name: 'Dolor Final',//fisioterapeuta
+                type: 'column',
+                data: final,
+                tooltip: {
+                    valueSuffix: ''
+                }
+            }]
+        });
+
+    
+    }
+
+    function dibujarGraficaAvance(arrayDatosf) {
+        console.log(arrayDatosf);
+        var sistema = new Array();
+        var doctor = new Array();
+        var indices = new Array();
+
+        for (var i = 0; i < arrayDatosf.length; i++) {
+            var vsistema = arrayDatosf[i].evaInteno;
+            var vdoctor = arrayDatosf[i].evaDoctor;
+            var Titulo = arrayDatosf[i].indice;
+            sistema.push(parseFloat(vsistema));
+            doctor.push(parseFloat(vdoctor));
+            indices.push(Titulo);
+            console.log(vdoctor);
+        }
+
+        
+        Highcharts.chart('container2', {
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Avance general'
+            },
+           /*  subtitle: {
+                text: 'Source: WorldClimate.com'
+            }, */
+            xAxis: [{
+                categories: indices,
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                allowDecimals: false,
+                min: 0,
+                max: 10,
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                },
+                title: {
+                    text: 'Eva Fisioerapeta',//fisioterapeuta
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                }
+            }, { // Secondary yAxis
+                allowDecimals: false,
+                min: 0,
+                max: 10,
+                title: {
+                    text: 'Eva Sistema',//eva sistema
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                opposite: true
+            }],
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 100,
+                floating: true,
+                backgroundColor:
+                    Highcharts.defaultOptions.legend.backgroundColor || // theme
+                    'rgba(255,255,255,0.25)'
+            },
+            series: [{
+                name: 'Eva Sistema',//eva sistema
+                type: 'column',
+                yAxis: 1,
+                data: sistema,
+                tooltip: {
+                    valueSuffix: ''
+                }
+
+            }, {
+                name: 'Eva Fisioerapeta',//fisioterapeuta
+                type: 'spline',
+                data: doctor,
+                tooltip: {
+                    valueSuffix: ''
+                }
+            }]
+        });
+
+    }
+
+</script>
+
+{% endblock %}

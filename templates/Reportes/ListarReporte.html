@@ -1,0 +1,130 @@
+{% extends 'Home/index.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .sweet-alert h2{
+        font-size: 1.2rem ;
+    }
+    .sweet-alert .text-muted{
+        font-size: 1.1rem;
+    }
+    .sa-button-container .cancel{
+        font-size: 1rem;
+    }
+    .sa-confirm-button-container .confirm {
+        font-size: 1rem ;
+    }
+</style>
+<link href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<!-- <div class="col-md-12" style="text-align: right;">
+    <a href="{% url 'Paciente:registrarPaciente' %}" class="btn btn-primary"><i class="far fa-user"></i> Registrar Paciente</a>
+
+</div> -->
+<div class="col-md-12 mt-3">
+
+    <div class="card">
+        <div class="card-body">
+            {% if rutina %}
+                <table class="table table-bordered" id="tbSeguimiento">
+                    <thead>
+                        <tr >
+                        <th style="background: #9ac10f; color: #fff;">Nombres</th>
+                        <th style="background: #9ac10f; color: #fff;">Apellidos</th>
+                        <th style="background: #9ac10f; color: #fff;">Cédula</th>
+                        
+                        <th style="background: #9ac10f; color: #fff;">Teléfono</th>
+                        <th style="background: #9ac10f; color: #fff;">Fecha Cita</th>
+                        <th style="background: #9ac10f; color: #fff;"></th>
+                        <th style="background: #9ac10f; color: #fff;"></th>
+                        
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <!-- {%  for i in rutina %}
+                        <tr>
+                            <td colspan="6">
+                                {{i.historiaClinica.paciente.user.first_name}}
+                            </td>
+                        </tr>
+                        {% endfor %} -->
+                        {%  for i in rutina %}
+                        <tr>
+                            <td><a href="#">{{i.historiaClinica.paciente.user.first_name}}</a></td>
+                            <td>{{i.historiaClinica.paciente.user.last_name}}</td>
+                            <td>{{i.historiaClinica.paciente.cedula}}</td>
+                            <td>{{i.historiaClinica.paciente.telefono}}</td>
+                            <td>{{i.historiaClinica.paciente.fechaCita|date:'d-m-Y'}}</td>
+                            
+                            <td>
+                                
+                                <a href="{% url 'Paciente:visualizarReporte' i.historiaClinica.paciente.id %}" class="btn btn-success">Reporte</a>
+                                  
+                            </td>
+                            <td>
+                                
+                                <a href="{% url 'Paciente:visualizarGraficas' i.historiaClinica.paciente.id %}" class="btn btn-primary">Gráficas</a>
+                                  
+                            </td>
+                            
+                        </tr>
+                        
+                        {% endfor %}
+                    </tbody>   
+                </table>
+                
+            {% else %}
+                <h4>No existen pacientes con Rutinas Asignadas</h4>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+    
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/jquery.dataTables4.min.js' %} "></script>
+<script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %} "></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+        
+        $('#tbSeguimiento').DataTable({
+            language: {
+                         "sProcessing": "Procesando...",
+                         "sLengthMenu": "Mostrar _MENU_ registros",
+                         "sZeroRecords": "No se encontraron resultados",
+                         "sEmptyTable": "Ningún dato disponible en esta tabla",
+                         "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                         "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                         "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                         "sInfoPostFix": "",
+                         "sSearch": "Buscar:",
+                         "sUrl": "",
+                         "sInfoThousands": ",",
+                         "sLoadingRecords": "Cargando...",
+                         "oPaginate": {
+                             "sFirst": "Primero",
+                             "sLast": "Último",
+                             "sNext": "Siguiente",
+                             "sPrevious": "Anterior"
+                         },
+                         "oAria": {
+                             "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                         },
+                         "buttons": {
+                             "copy": "Copiar",
+                             "colvis": "Visibilidad"
+                         }
+                     }
+        });
+     });
+
+ </script>
+ {% endblock %}

@@ -5,21 +5,20 @@ class Progresoform(forms.ModelForm):
     class Meta:
         model=Progreso
         fields=[
-            'tiempo_realizado',
-            'fecha_realizado',
-            'dolor',
+            'gradoDolorInicial',
+            'gradoDolorFinal',
+            
             
         ]
 
         labels={
-            'tiempo_realizado':'Tiempo realizado',
-            'fecha_realizado':'Fecha de realización',
-            'dolor':'Dolor',
+            'gradoDolorInicial':'Grado de Dolor Inicial',
+            'gradoDolorFinal':'Gradode Dolor Final',
+            
             
         }
         widgets={
-            'tiempo_realizado':forms.TextInput(attrs={'class':'form-control', 'required':True }),
-            'fecha_realizado':forms.TextInput(attrs={'class':'form-control', 'required':True }),
-            'dolor':forms.TextInput(attrs={'class':'form-control', 'required':True }),
+            'gradoDolorInicial':forms.TextInput(attrs={'class':'form-control', 'required':True }),
+            'gradoDolorFinal':forms.TextInput(attrs={'class':'form-control', 'required':True }),
             
         }

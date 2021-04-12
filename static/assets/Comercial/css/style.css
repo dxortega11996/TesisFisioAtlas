@@ -523,7 +523,7 @@ ol {
 }
 
 .hero-slider .hs-item h2 {
-	font-size: 60px;
+	font-size: 40px;
 	text-transform: uppercase;
 	font-weight: 700;
 	margin-bottom: 10px;
@@ -2316,7 +2316,7 @@ ol {
 		max-width: 510px;
 	}
 	.hero-slider .hs-item h2 {
-		font-size: 50px;
+		font-size: 40px;
 	}
 	.hero-slider .hs-item .offer-card {
 		display: none;

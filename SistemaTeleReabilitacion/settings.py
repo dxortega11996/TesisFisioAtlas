@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'SistemaTeleReabilitacion.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'BDDfisioAtlas',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
+        'NAME': 'prueba1',
+        'USER':'fisioatlas',
+        'PASSWORD':'fisioatlas',
+        'HOST':'143.198.122.231',
         'PORT':3306,
     }
 }

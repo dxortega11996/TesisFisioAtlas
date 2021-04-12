@@ -52,7 +52,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #ccc;
+        background-color: #d46464;
         -webkit-transition: .4s;
         transition: .4s;
     }
@@ -90,6 +90,9 @@
 
     .slider.round:before {
         border-radius: 50%;
+    }
+    .form-control[readonly]{
+        background-color: #fff !important;
     }
 </style>
 <div class="col-md-12">
@@ -141,7 +144,7 @@
                 <div class="row mt-3">
                     
                     <div class="col-md-2"><label class="font-weight-bold">Observación:</label></div>
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         {{ form.preescripcion }}
                         {{ form.preescripcion.error }}
                     </div>
@@ -153,30 +156,53 @@
                     
                 </div>
                 <div class="col-md-12 mt-3">
-                    {% for i in Juegos %}
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    {{i.nombre}} 
-                                </label>
-                            </div>
-                            <div class="col-md-1">
+                    
+                    <div class="row" style="justify-content: center;">
+                        {% for i in Juegos %}
+                        <div class="card col-md-3 m-4" style="width: 18rem;">
 
-                                <label class="switch">
-                                    <input type="checkbox"  class="verificarJuego" value="{{i.id}}">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-                            <input type="hidden" id="hfchkJuego_{{i.id}}" name="juegonNum{{i.id}}" value="NO">
-                            
-                            <div class="col-md-1">
-                                <input type="number" id="txtNumSesionesJuego_{{i.id}}" name="NumSesionesJuego{{i.id}}" class="form-control onlyNumbers" value="0" >
-                                <!-- <select id="ddlJuego_{{i.id}}" class="custom-select fechasDisponibles">
+                            {% if i.id == 1 %}
+                                <img class="card-img-top" src="{% static 'assets/img/salta.png' %}" alt="Card image cap">
+                            {% elif i.id == 2 %}
+                                <img class="card-img-top" src="{% static 'assets/img/nave.png' %}" alt="Card image cap">
+                            {% elif i.id == 3 %}
+                                <img class="card-img-top" src="{% static 'assets/img/laberinto.png' %}" alt="Card image cap">
+                            {% endif %}
+
+                            <div class="card-body" >
+                            <diw class="row">
+                                <div class="col-md-4">
+
+                                    <label class="switch">
+                                        <input type="checkbox"  class="verificarJuego" value="{{i.id}}">
+                                        <span class="slider round"></span>
+                                    </label>
                                     
-                                </select> -->
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="" id="lblEstadoJuego_{{i.id}}"  class="mt-2 estadoJuegolbl">Inactivo</label>
+                                </div>
+                                <input type="text"  id="hfchkJuego_{{i.id}}" name="juegonNum{{i.id}}" value="NO" class="verificarSINO">
+                                
+                                <div class="col-md-6" >
+                                    <input  disabled type="number"  id="txtNumSesionesJuego_{{i.id}}" name="NumSesionesJuego{{i.id}}" class="form-control onlyNumbers numsesionesInd" value="0" >
+                                    
+                                </div>
+                            </diw>
                             </div>
-                        </div>                        
-                    {% endfor  %}
+
+                            <div class="card-body" style="height: 70%;">
+                              <h5 class="card-title"> {{i.nombre}}</h5>
+                              <p class="card-text " style="text-align: justify;">  {{i.description}}</p>
+                            </div>
+                            
+                            
+                          </div>
+                          {% endfor  %}
+                    </div>
+                    
+                                             
+                    
                 </div>
             </div>
             <div class="card-footer text-center">
@@ -207,7 +233,7 @@
 <script type="text/javascript">
    var diasDisponibles=0;
     $(document).ready(function() {
-        
+        $('#id_num_sesion').attr('disabled',true)
         var fecha=moment(new Date()).format("yyyy-MM-DD");
         $('.datepicker').val(fecha);
 
@@ -229,14 +255,55 @@
     $('.verificarJuego').change(function(){
         
         if($(this).prop('checked')){
+            $('#txtNumSesionesJuego_'+this.value).attr('disabled',false);
             $('#hfchkJuego_'+this.value).val('SI');
+            $('#lblEstadoJuego_'+this.value).text('Activo');
         }else{
+            $('#txtNumSesionesJuego_'+this.value).val(0);
+            $('#txtNumSesionesJuego_'+this.value).attr('disabled',true);
             $('#hfchkJuego_'+this.value).val('NO');
+            $('#lblEstadoJuego_'+this.value).text('Inactivo');
         }
+
+        var numckh = $('.verificarJuego:checked').length ;
+        var numSesiones=$('#id_num_sesion').val();
+
+        var calculado= parseInt(numSesiones)/parseInt(numckh);
+        if (calculado % 1 == 0) {
+            llenarNumSesiones(calculado)
+        } /* else {
+            swal('El número de sesiones debe ser múltiplo al numero de juegos seleccionados');
+            $('.numsesionesInd').val(0);
+            $('.verificarSINO').val('NO');
+            $('.verificarJuego').prop('checked',false);
+            $('.estadoJuegolbl').text('Inactivo');
+        } */
+
+
     });
 
+    function llenarNumSesiones(num){
+
+        $('.verificarJuego').each(function(){
+            if($(this).prop('checked')){
+               $('#txtNumSesionesJuego_'+this.value).val(num);
+                
+            }else{
+                $('#txtNumSesionesJuego_'+this.value).val(0);
+                
+            }
+
+        });
+
+    }
+
+
     $('.datepicker').change(function(){
-        
+        $('.numsesionesInd').val(0);
+        $('.verificarSINO').val('NO');
+        $('.verificarJuego').prop('checked',false);
+
+
         if($('#id_fecha_inicio').val()==''){
             swal('Ingrese la fecha Inicio');
             return;
@@ -269,17 +336,10 @@
         var dias=fecha2.diff(fecha1, 'days');
         diasDisponibles=parseInt(dias);
         $('#id_num_sesion').val(diasDisponibles);
-       // llenarCombosDiasDisponibles(diasDisponibles);
+       
     }
 
-    /* function llenarCombosDiasDisponibles(dias){
-        $('.fechasDisponibles options').remove();
-        for (var i = 0; i <= dias; i++) {
-            var newOption='<option value="'+i+'">'+i+'</option>';
-            $('.fechasDisponibles').append(newOption);
-        }
-
-    } */
+    
     $( "#btnGuardarRutina" ).click(function( event ) {
         var fechaInicio= $('#id_fecha_inicio').val();
         var fechaFin= $('#id_fecha_fin').val();
@@ -304,6 +364,24 @@
             event.preventDefault();
             return;
         }
+        var numckh = $('.verificarJuego:checked').length ;
+        var numSesiones=$('#id_num_sesion').val();
+
+        var calculado= parseInt(numSesiones)/parseInt(numckh);
+        if (calculado % 1 == 0) {
+            console.log('correcto')
+        } else {
+            swal('El número de sesiones debe ser múltiplo al número de juegos seleccionados');
+            $('.numsesionesInd').val(0);
+            $('.verificarSINO').val('NO');
+            $('.verificarJuego').prop('checked',false);
+            $('.estadoJuegolbl').text('Inactivo');
+            event.preventDefault();
+            return;
+        }
+
+
+        
         
     });
  </script>

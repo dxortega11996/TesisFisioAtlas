@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.urls import path
-from apps.Paciente.views import listarPaciente,RegistrarPaciente,ActualizarPaciente,EliminarPaciente,VisualHistoriaClinica,listarSeguimientoPaciente,activarHC,eliminarPacineteV2,RegistrarRutina,listarControlPaciente,actualizarSesion
+from apps.Paciente.views import listarPaciente,RegistrarPaciente,ActualizarPaciente,EliminarPaciente,VisualHistoriaClinica,listarSeguimientoPaciente,activarHC,eliminarPacineteV2,RegistrarRutina,listarControlPaciente,actualizarSesion,finalizarRutina,listarReportes,visualizarReporte,visualizarGraficas
 app_name='Paciente'
 
 urlpatterns=[
@@ -17,5 +17,12 @@ urlpatterns=[
     path('registrarRutina/<int:pk>/',RegistrarRutina.as_view(), name="registrarRutina"),
     path('listarControl/<int:pk>/',listarControlPaciente.as_view(), name="listarControl"),
     path('actualizarSesion/',actualizarSesion, name="actualizarSesion"),
+    path('finalizarRutina/',finalizarRutina, name="finalizarRutina"),
+
+
+
+    path('listarReportes/',listarReportes.as_view(), name="listarReportes"),
+    path('visualizarReporte/<int:pk>/',visualizarReporte.as_view(), name="visualizarReporte"),
+    path('visualizarGraficas/<int:pk>/',visualizarGraficas.as_view(), name="visualizarGraficas"),
         
 ]

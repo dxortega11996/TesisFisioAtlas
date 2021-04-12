@@ -2,7 +2,17 @@
 {% load static %}
     {% block  contenerdor %}
 	<!-- Hero section -->
-
+  <style>
+    .card-img-top{
+      height: 150px !important;
+      object-fit: contain;
+    }
+    .list-group-item{
+      padding: .75rem 0.25rem !important;
+      font-size: 11px !important;
+      text-align: justify !important;
+    }
+  </style>
 	<div class="container mt-2">
         <div class="card">
             <div class="card-header">
@@ -14,13 +24,32 @@
                     <div class="col-md-12">
                         <div class="card-deck">
                             <div class="card">
-                              <img class="card-img-top" src="{% static 'assets/img/logoFisioAtlas.png' %}" alt="Card image cap">
+                             
+                              <img class="card-img-top rounded" src="{% static 'assets/Comercial/img/traumatologia.png' %}" alt="Card image cap">
                               <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <h5 class="card-title">Traumatología </h5>
+                                <ul class="list-group">
+                                  <li class="list-group-item">Columna vertebral: cervicalgias, dorsalgias, lumbalgias, ciatalgia, hernias discales.</li>
+                                  <li class="list-group-item">Tratamientos músculo tendinoso: contracturas, tendinitis, rotura de fibras.</li>
+                                  <li class="list-group-item">Tratamientos pre y post operatorios: recuperación funcional.</li>
+                                  <li class="list-group-item">Post fracturas, luxaciones, contusiones, etc.</li>
+                                  <li class="list-group-item">Síndrome del túnel carpiano (mano).</li>
+                                  <li class="list-group-item">Hombro doloroso.</li>
+                                  <li class="list-group-item">Epicondilitis – Epitrocleitis</li>
+                                  <li class="list-group-item">Fascitis plantar.</li>
+                                  <li class="list-group-item">Bursitis</li>
+                                  <li class="list-group-item">Lesiones ligamentosas: esguinces.</li>
+                                  <li class="list-group-item">Reincorporación a la práctica deportiva</li>
+
+                                  
+                                </ul>
+                                
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                               </div>
                             </div>
+
+
+
                             <div class="card">
                               <img class="card-img-top" src="{% static 'assets/img/logoFisioAtlas.png' %}" alt="Card image cap">
                               <div class="card-body">
@@ -29,6 +58,8 @@
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                               </div>
                             </div>
+
+
                             <div class="card">
                               <img class="card-img-top" src="{% static 'assets/img/logoFisioAtlas.png' %}" alt="Card image cap">
                               <div class="card-body">
