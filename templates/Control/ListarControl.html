@@ -86,7 +86,7 @@
                 <div class="col-md-4">
                     <div class="card text-center m-3 ">
                         <div class="card-header text-primary ">
-                            <h5 class="card-title font-weight-bold text-dark">Control Nº {{i.numeroSesion}} {{i.id}}</h5>
+                            <h5 class="card-title font-weight-bold text-dark">Control Nº {{i.numeroSesion}}</h5>
                             
                             
                         </div>
@@ -234,7 +234,7 @@
 
 <div class="modal fade" id="modalIntentos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document" style="max-width: 750px !important;">
+    <div class="modal-dialog" role="document" style="max-width: 950px !important;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Intentos Sesión Nº&nbsp<h5 id="lblNumeroIntento"
@@ -257,6 +257,7 @@
                                     <th>Puntaje</th>
                                     <th>Tiempo</th>
                                     <th>Fecha/Hora</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody id="listaIntentos">
@@ -266,10 +267,23 @@
                     </div>
                 </div>
                 <div class="row p-2">
-                    <div class="col-md-12 text-center">
-                        <label class="font-weight-bold" id="lblGradoDolorModal"></label>
-                    </div>
+
+                    <table class="table table-striped table-bordered" style="width: 250px;">
+                        <tbody>
+                            <tr>
+                                <th style="width: 150px;"><label class="font-weight-bold" >Eva Inicial:</label></th>
+                                <td><label class="font-weigdt-bold evaMod" id="lblEvaInicial"></label></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 150px;"><label class="font-weight-bold" >Eva Final:</label></th>
+                                <td><label class="font-weight-bold evaMod" id="lblEvaFinal"></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    
                 </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -317,8 +331,6 @@
             $('#divBtnFinalizar').empty();
         }
         
-
-
         setTimeout(function () {
             intentosArray = JSON.parse(temp);
             juegosArray = JSON.parse(tempJuegos);
@@ -395,11 +407,23 @@
     }
 
     function verIntentos(idcontro, numeroSesion, tituloJuego) {
+        $('.evaMod').text('');
         $('#listaIntentos').empty();
         $('#lblNumeroIntento').text(numeroSesion);
         var vIntentos = intentosArray.filter(function (element) {
             return element.fields.control == idcontro;
         });
+
+        var gradodolor = progresosArray.find(
+            function (elemento) {
+                return elemento.fields.control == idcontro;
+            }
+        );
+        if(gradodolor){
+            $('#lblEvaInicial').text(gradodolor.fields.gradoDolorInicial);
+            $('#lblEvaFinal').text(gradodolor.fields.gradoDolorFinal);
+        }
+        console.log('grado dolor',gradodolor);
         for (var i = 0; i < vIntentos.length; i++) {
             var fecha = vIntentos[i].fields.fechaHora;
             var fechaHora = formatoFecha(fecha);
@@ -417,6 +441,7 @@
                 '<td>' + vIntentos[i].fields.puntaje + '</td>' +
                 '<td>' + vIntentos[i].fields.tiempo + ' Seg</td>' +
                 '<td>' + fechaHora + '</td>' +
+                
                 +'</tr>';
             $('#listaIntentos').append(newTr);
         }
