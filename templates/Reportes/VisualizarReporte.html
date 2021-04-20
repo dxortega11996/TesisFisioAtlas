@@ -106,7 +106,7 @@
                         <tr>
                             <th>Juego</th>
                             <th>Nº Control</th>
-                            <th>Dificultad</th>
+                            
                             <th>Nº Intento</th>
                             <th>Puntaje</th>
                             <th>Tiempo</th>
@@ -115,6 +115,7 @@
                             <th>Mov Abrir</th>
                             <th>Mov Arriba</th>
                             <th>Mov Puño</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody id="listaIntentosJ1">
@@ -471,7 +472,7 @@
                 var newtr='<tr>'+
                             '<th>'+juego.fields.nombre+'</th>'+
                             '<th>Control Nº '+numControl.fields.numeroSesion+'</th>'+
-                            '<th>'+int.fields.dificultad+'</th>'+
+                            
                             '<th>'+contint+'</th>'+
                             '<th>'+int.fields.puntaje+'</th>'+
                             '<th>'+int.fields.tiempo+' Seg</th>'+
@@ -480,6 +481,7 @@
                             '<th>'+movAb+'</th>'+
                             '<th>'+movArr+'</th>'+
                             '<th>'+movP+'</th>'+
+                            '<th>'+int.fields.estadoI+'</th>'+
                             '</tr>';
                             $(elemento.tbody).append(newtr);
                             contint++;

@@ -252,11 +252,12 @@
                             <thead>
                                 <tr>
                                     <th>Juego</th>
-                                    <th>Dificultad</th>
+                                    
                                     <th>Nº Intento</th>
                                     <th>Puntaje</th>
                                     <th>Tiempo</th>
                                     <th>Fecha/Hora</th>
+                                    <th>Estado</th>
                                     
                                 </tr>
                             </thead>
@@ -423,7 +424,7 @@
             $('#lblEvaInicial').text(gradodolor.fields.gradoDolorInicial);
             $('#lblEvaFinal').text(gradodolor.fields.gradoDolorFinal);
         }
-        console.log('grado dolor',gradodolor);
+        
         for (var i = 0; i < vIntentos.length; i++) {
             var fecha = vIntentos[i].fields.fechaHora;
             var fechaHora = formatoFecha(fecha);
@@ -436,12 +437,12 @@
 
             var newTr = '<tr>' +
                 '<td>' + juegoN.fields.nombre + '</td>' +
-                '<td>' + vIntentos[i].fields.dificultad + '</td>' +
+                
                 '<td>' + (i + 1) + '</td>' +
                 '<td>' + vIntentos[i].fields.puntaje + '</td>' +
                 '<td>' + vIntentos[i].fields.tiempo + ' Seg</td>' +
                 '<td>' + fechaHora + '</td>' +
-                
+                '<td>' + vIntentos[i].fields.estadoI + '</td>' +
                 +'</tr>';
             $('#listaIntentos').append(newTr);
         }
