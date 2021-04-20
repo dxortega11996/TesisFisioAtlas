@@ -230,8 +230,6 @@ class RegistrarRutina(CreateView):
             context['paciente1']=Paciente.objects.filter(user_id=idPacinete).first()
             context['historiaC']=HistoriaClinica.objects.filter(paciente_id=idPHC.id).first()
             context['Juegos']=Juego.objects.all()
-
-            context['titulo']='hola mundo'
             context['Profesional']=perfil
             
             return context
@@ -260,9 +258,9 @@ class RegistrarRutina(CreateView):
                         numSesion1+=1
                         newControl.save()
                 
-                numSesion2=1
-                juego2= request.POST['juegonNum2']
                 
+                numSesion2=1
+                juego2= request.POST['juegonNum2'] 
                 if juego2=='SI':
                   numsesionesJuego2=request.POST['NumSesionesJuego2']  
                   for i in range(int(numsesionesJuego2)):
@@ -431,9 +429,6 @@ class visualizarGraficas(ListView):
         context['rutina']=idRutina
         context['Controles']=serializers.serialize('json', Control.objects.all().filter(rutina_id = idRutina.id))  
         
-        
-
-
         context['Profesional']=perfil
         context['Paciente']=idPHC
         return context

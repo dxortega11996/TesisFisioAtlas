@@ -182,9 +182,9 @@
                                 <div class="col-md-6">
                                     <label for="" id="lblEstadoJuego_{{i.id}}"  class="mt-2 estadoJuegolbl">Inactivo</label>
                                 </div>
-                                <input type="text"  id="hfchkJuego_{{i.id}}" name="juegonNum{{i.id}}" value="NO" class="verificarSINO">
+                                <input type="hidden"  id="hfchkJuego_{{i.id}}" name="juegonNum{{i.id}}" value="NO" class="verificarSINO">
                                 
-                                <div class="col-md-6" >
+                                <div class="col-md-6"  style="display: none;">
                                     <input  disabled type="number"  id="txtNumSesionesJuego_{{i.id}}" name="NumSesionesJuego{{i.id}}" class="form-control onlyNumbers numsesionesInd" value="0" >
                                     
                                 </div>
@@ -233,7 +233,8 @@
 <script type="text/javascript">
    var diasDisponibles=0;
     $(document).ready(function() {
-        $('#id_num_sesion').attr('disabled',true)
+        /* $('#id_num_sesion').attr('disabled',true) */
+        document.getElementById("id_num_sesion").readOnly = true;
         var fecha=moment(new Date()).format("yyyy-MM-DD");
         $('.datepicker').val(fecha);
 
@@ -302,7 +303,7 @@
         $('.numsesionesInd').val(0);
         $('.verificarSINO').val('NO');
         $('.verificarJuego').prop('checked',false);
-
+        $('.estadoJuegolbl').text('Inactivo');
 
         if($('#id_fecha_inicio').val()==''){
             swal('Ingrese la fecha Inicio');
@@ -334,19 +335,28 @@
         var fecha2 = moment(DateFin);
 
         var dias=fecha2.diff(fecha1, 'days');
-        diasDisponibles=parseInt(dias);
+        diasDisponibles=parseInt(dias)+1;
         $('#id_num_sesion').val(diasDisponibles);
        
     }
 
     
     $( "#btnGuardarRutina" ).click(function( event ) {
-        var fechaInicio= $('#id_fecha_inicio').val();
-        var fechaFin= $('#id_fecha_fin').val();
+        var fechaInicio= $('#id_fecha_inicio').val()+'T23:59:00';
+        var fechaFin= $('#id_fecha_fin').val()+'T23:59:00';
 
         var DateInicio=new Date(fechaInicio.replaceAll('/','-'));
         var DateFin=new Date(fechaFin.replaceAll('/','-'));
-        
+        var fechaActual = new Date();
+
+
+        if(DateInicio<fechaActual){
+            swal('La fecha Inicio no puede ser menor a la fecha actual');
+            event.preventDefault();
+            return;
+        }
+
+
         if(DateInicio>DateFin){
             swal('La fecha Inicio no puede ser mayor a la fecha fin');
             event.preventDefault();
