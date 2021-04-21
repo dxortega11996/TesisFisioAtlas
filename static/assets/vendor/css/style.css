@@ -434,9 +434,15 @@ h1, h2, h3, h4, h5, h6, .font-primary {
     border-radius: 0 0 50% 50%;
     transform: translateX(-50%) translateY(20px) rotate(4deg);
   }
+  #main {
+    margin-top: 0px;
+  }
 }
 
 @media (max-width: 575px) {
+  #main {
+    margin-top: 0px;
+  }
   #hero h2 {
     font-size: 30px;
   }

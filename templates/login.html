@@ -13,12 +13,27 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/Loggin/main.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.css' %} ">
 
+	<style>
+		#linkHome{
+				position: absolute; 
+				top: 8px; 
+				left: 50px;
+			}
+		@media (max-width: 575px) {
+			#linkHome{
+				top: 15px; left: 20px;
+			}
+		}
+		
+	</style>
 </head>
 
 <body>
 	
 	<div class="limiter">
 		<div class="container-login100">
+			<a href="{% url 'indexHome:HomePrincipal' %}" id="linkHome" class="btn btn-secondary" ><i class="fas fa-home"></i> Home</a>
+
 			<div class="wrap-login100">
 				<div class="login100-form-title" style="background-image: url('/static/assets/img/fondoLoggin.jpg');">
 					<span class="login100-form-title-1">
