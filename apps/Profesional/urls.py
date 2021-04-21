@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
+
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
@@ -7,9 +9,9 @@ app_name='Profesional'
 
 urlpatterns=[
   
-    path('registrarProfesional/',RegistrarProfesional.as_view(), name="registrarProfesional"),
-    path('actualizarProfesional/<int:pk>/',ActualizarProfesional.as_view(), name="actualizarProfesional"),
-    path('listarProfesional/',listarProfesional.as_view(), name="listarProfesional"),  
+    path('registrarProfesional/',login_required(RegistrarProfesional.as_view()), name="registrarProfesional"),
+    path('actualizarProfesional/<int:pk>/',login_required(ActualizarProfesional.as_view()), name="actualizarProfesional"),
+    path('listarProfesional/',login_required(listarProfesional.as_view()), name="listarProfesional"),  
     path('actualizarestado/',actualizarEstado, name="actualizarestado"),     
 ]
 

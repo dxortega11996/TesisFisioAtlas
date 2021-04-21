@@ -28,6 +28,7 @@
                 <table class="table table-bordered" id="tbSeguimiento">
                     <thead>
                         <tr >
+                        <th style="display: none;">id</th>
                         <th style="background: #9ac10f; color: #fff;">Nombres</th>
                         <th style="background: #9ac10f; color: #fff;">Apellidos</th>
                         <th style="background: #9ac10f; color: #fff;">Cédula</th>
@@ -42,6 +43,7 @@
                     <tbody>
                         {%  for i in pacientes %}
                         <tr>
+                            <td style="display: none;">{{i.id}}</td>
                             <td><a href="#">{{i.user.first_name}}</a></td>
                             <td>{{i.user.last_name}}</td>
                             <td>{{i.cedula}}</td>
@@ -84,6 +86,7 @@
    $(document).ready(function() {
         
         $('#tbSeguimiento').DataTable({
+            order: [[0, "desc"]],
             language: {
                          "sProcessing": "Procesando...",
                          "sLengthMenu": "Mostrar _MENU_ registros",

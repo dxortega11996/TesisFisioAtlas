@@ -31,11 +31,13 @@ class RegistrarProfesional(CreateView):
         def get_context_data(self, **kwargs):
             context= super(RegistrarProfesional,self).get_context_data(**kwargs)
             
-            
+            pk = self.request.user.id
+            perfil = Profesional.objects.get(user_id=pk)
             if 'form' not in context:
                 context['form']= self.form_class(self.request.GET)
             if 'form2' not in context:
                 context['form2']= self.second_form_class(self.request.GET)
+            context['Profesional']=perfil
             return context
         def post(self, request, *args, **kwargs):
             self.object= self.get_object
@@ -82,6 +84,8 @@ class ActualizarProfesional(UpdateView):
     success_url = reverse_lazy('Profesional:listarProfesional')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
+        pku = self.request.user.id
+        perfil = Profesional.objects.get(user_id=pku)
         pk = self.kwargs.get('pk',0)
         empleadoid=self.model.objects.get(id=pk)
         user=self.second_model.objects.get(id=empleadoid.user_id)
@@ -90,6 +94,7 @@ class ActualizarProfesional(UpdateView):
         if 'form2' not in context:
             context['form2']= self.second_form_class(instance=user)
         context['id']=pk
+        context['Profesional']=perfil
         return context
     def post(self, request, *args, **kwargs):
         self.object= self.get_object

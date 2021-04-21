@@ -52,19 +52,14 @@ class RegistrarPaciente(CreateView):
         success_url = reverse_lazy('Paciente:listarPaciente')
         def get_context_data(self, **kwargs):
             
-
-            """ subject, from_email, to = 'hello', 'ximenaortega4@gmail.com', 'ximenaortega4@gmail.com'
-            text_content = 'This is an important message.'
-            html_content = '<p>This is an <strong>important</strong> message.</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-            """
+            pk = self.request.user.id
+            perfil = Profesional.objects.get(user_id=pk)
             context= super(RegistrarPaciente,self).get_context_data(**kwargs)
             if 'form' not in context:
                 context['form']= self.form_class(self.request.GET)
             if 'form2' not in context:
                 context['form2']= self.second_form_class(self.request.GET)
+            context['Profesional']=perfil
             return context
         def post(self, request, *args, **kwargs):
             self.object= self.get_object

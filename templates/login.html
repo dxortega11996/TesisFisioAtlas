@@ -2,122 +2,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login</title>
+	<title>Iniciar Sesión</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %} ">
-
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-
-
+	<link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %} " rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 	
-	<link href="{% static 'assets/css/util.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
-<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/Loggin/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/Loggin/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.css' %} ">
+
 </head>
-<body style="background-color: #666666;">
+
+<body>
 	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
+				<div class="login100-form-title" style="background-image: url('/static/assets/img/fondoLoggin.jpg');">
+					<span class="login100-form-title-1">
+						Iniciar Sesión
+					</span>
+				</div>
+
 				<form class="login100-form validate-form" method="post">
 					{% csrf_token %}
-					<span class="login100-form-title p-b-43">
-						Acceda a su cuenta
-					</span>
-					
-					
-					<div class="wrap-input100 validate-input" style="border:0px solid #e6e6e6">
-						<span class="">Correo:</span>
-						<input class="form-control" type="text" name="username" id="username">
+					<div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese el email">
+						<span class="label-input100">Email:</span>
+						<input class="input100" type="text" name="username" id="username" placeholder="Ingrese su correo">
 						<span class="focus-input100"></span>
-						
-					</div>
-					
-					
-					<div class="wrap-input100 validate-input" style="border:0px solid #e6e6e6">
-						<span class="">Contraseña:</span>
-						<input class="form-control" type="password" name="password" id="password">
-						
-						
 					</div>
 
-					<!-- <div class="flex-sb-m w-full p-t-3 p-b-32">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Recordar nombre de usuario
-							</label>
-						</div>
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese la contraseña">
+						<span class="label-input100">Contraseña:</span>
+						<input class="input100" type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+						<span class="focus-input100"></span>
+					</div>
 
-						<div>
-							<a href="#" class="txt1">
-								Olvidó su nombre de usuario o contraseña?
-							</a>
-						</div>
-					</div> -->
-			
+					
 
-					<div class="container-login100-form-btn " style="margin-top: 40px;">
-						<button class="login100-form-btn"  type="submit" style="width: 50%;">
-							Acceder
+					<div class="container-login100-form-btn">
+						<button type="submit" class="login100-form-btn">
+							Iniciar Sesión
 						</button>
 					</div>
-					
-					<!-- <div class="text-center p-t-46 p-b-20">
-						<span class="txt2">
-							or sign up using
-						</span>
+
+					<div class="row mt-3">
+						{% if form.non_field_errors %}
+									
+								{% for error in form.non_field_errors %}
+									<div class="alert alert-warning alert-dismissible fade show" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<strong>Opss!</strong> Ha ocurrido un error, por favor ingresa un email y contraseña correcta.
+										</div>
+
+									
+								{% endfor %}
+						{% endif %}
 					</div>
-
-					<div class="login100-form-social flex-c-m">
-						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
-							<i class="fa fa-facebook-f" aria-hidden="true"></i>
-						</a>
-
-						<a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">
-							<i class="fa fa-twitter" aria-hidden="true"></i>
-						</a>
-					</div> -->
+					
 				</form>
-
-				<div class="login100-more" style="background-image: url('/static/assets/img/imgLoggin.jpg');">
-				</div>
 			</div>
 		</div>
 	</div>
 	
-	
 
-	
-	
-<!--===============================================================================================-->
-	
 	<script src="{% static 'assets/vendor/jquery/jquery.min.js' %} "></script>
 	<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
-<!--===============================================================================================-->
-	<!-- <script src="vendor/animsition/js/animsition.min.js"></script> -->
-<!--===============================================================================================-->
-	
+
 	<script src="{% static 'assets/bootstrap/js/popper.js' %} "></script>
 	<script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %} "></script>
 
+	<script src="{% static 'assets/Loggin/main.js' %}"></script>
 
 
 
 </body>
+
+
+<script>
+	$(document).ready(function() {
+		setTimeout(() => {
+			$(".alert").alert('close')
+		}, 3000);
+	});
+</script>
 </html>
