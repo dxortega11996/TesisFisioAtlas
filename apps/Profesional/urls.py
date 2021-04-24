@@ -9,7 +9,7 @@ app_name='Profesional'
 
 urlpatterns=[
   
-    path('registrarProfesional/',login_required(RegistrarProfesional.as_view()), name="registrarProfesional"),
+    path('registrarProfesional/',RegistrarProfesional.as_view(), name="registrarProfesional"),
     path('actualizarProfesional/<int:pk>/',login_required(ActualizarProfesional.as_view()), name="actualizarProfesional"),
     path('listarProfesional/',login_required(listarProfesional.as_view()), name="listarProfesional"),  
     path('actualizarestado/',actualizarEstado, name="actualizarestado"),     
