@@ -1,83 +1,164 @@
 {% extends 'Home/Home.html' %}
 {% load static %}
-    {% block  contenerdor %}
-	<!-- Hero section -->
-  <style>
-    .card-img-top{
-      height: 150px !important;
-      object-fit: contain;
+{% block header %}
+<style>
+  @media (max-width: 768px) {
+    #main {
+      margin-top: 80px;
     }
-    .list-group-item{
-      padding: .75rem 0.25rem !important;
-      font-size: 11px !important;
-      text-align: justify !important;
-    }
-  </style>
-	<div class="container mt-2">
-        <div class="card">
-            <div class="card-header">
-                Servicios
+  }
+</style>
+<header id="header" class="fixed-top ">
+  <div class="container">
+
+    <div class="logo float-left">
+      <h1 class="text-light"><a href="{% url 'indexHome:HomePrincipal' %}"><span>FISIOATLAS</span></a></h1>
+    </div>
+
+    <nav class="nav-menu float-right d-none d-lg-block">
+      <ul>
+        <li><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+        <li><a href="{% url 'indexHome:HomeNosotros' %}">Nosotros</a></li>
+        <li class="active"><a href="{% url 'indexHome:HomeServicios' %}">Servicios</a></li>
+        <li><a href="{% url 'indexHome:HomeContacto' %}">Contactos</a></li>
+        <li>
+          {% if user.id %}
+          <a href="/accounts/profile/" class="btnSession">{{user.first_name|slice:"0:7"}}
+            {{user.last_name|slice:"0:7"}}</a>
+          {% else %}
+          <a href="/accounts/profile/" class="btnSession">Iniciar Sesión</a>
+          {% endif %}
+
+
+        </li>
+      </ul>
+    </nav><!-- .nav-menu -->
+
+  </div>
+</header>
+
+{% endblock %}
+{% block contenerdor %}
+<main id="main">
+
+  <!-- ======= About Us Section ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Servicios</h2>
+        <ol>
+          <li><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+          <li>Servicios</li>
+        </ol>
+      </div>
+
+    </div>
+  </section>
+  <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 d-flex flex-column justify-content-center p-5">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bxs-band-aid bx-tada bx-md"></i></div>
+            <h4 class="title"><a href="">Nuestros tratamientos especializados </a></h4>
+            <p class="description">Somos un centro de Fisioterapia que ofrece una solución eficaz, poco invasiva y no
+              farmacológica, a una gran variedad de dolencias físicas, que van desde las más leves y superficiales,
+              hasta las más incapacitantes y crónicas. Ofrecemos los sigui8entes tratamientos esenciales para que te
+              puedas recuperar: </p>
+          </div>
+        </div>
+      </div>
+  </section>
+  <section class="service-details">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="card">
+            <div class="card-img">
+              <img src="{% static 'assets/img/traumatologia3.jpg' %}" alt="...">
             </div>
             <div class="card-body">
-              
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card-deck">
-                            <div class="card">
-                             
-                              <img class="card-img-top rounded" src="{% static 'assets/Comercial/img/traumatologia.png' %}" alt="Card image cap">
-                              <div class="card-body">
-                                <h5 class="card-title">Traumatología </h5>
-                                <ul class="list-group">
-                                  <li class="list-group-item">Columna vertebral: cervicalgias, dorsalgias, lumbalgias, ciatalgia, hernias discales.</li>
-                                  <li class="list-group-item">Tratamientos músculo tendinoso: contracturas, tendinitis, rotura de fibras.</li>
-                                  <li class="list-group-item">Tratamientos pre y post operatorios: recuperación funcional.</li>
-                                  <li class="list-group-item">Post fracturas, luxaciones, contusiones, etc.</li>
-                                  <li class="list-group-item">Síndrome del túnel carpiano (mano).</li>
-                                  <li class="list-group-item">Hombro doloroso.</li>
-                                  <li class="list-group-item">Epicondilitis – Epitrocleitis</li>
-                                  <li class="list-group-item">Fascitis plantar.</li>
-                                  <li class="list-group-item">Bursitis</li>
-                                  <li class="list-group-item">Lesiones ligamentosas: esguinces.</li>
-                                  <li class="list-group-item">Reincorporación a la práctica deportiva</li>
-
-                                  
-                                </ul>
-                                
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                              </div>
-                            </div>
-
-
-
-                            <div class="card">
-                              <img class="card-img-top" src="{% static 'assets/img/logoFisioAtlas.png' %}" alt="Card image cap">
-                              <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                              </div>
-                            </div>
-
-
-                            <div class="card">
-                              <img class="card-img-top" src="{% static 'assets/img/logoFisioAtlas.png' %}" alt="Card image cap">
-                              <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                              </div>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-md 4"></div>
-                </div>
-            
-            
+              <h5 class="card-title"><a href="#">Traumatología</a></h5>
+              <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+              <div class="read-more"><a href="#"><i class="icofont-arrow-right"></i> Read More</a></div> -->
             </div>
           </div>
-    
-    </div>
-	<!-- Hero section end -->
+        </div>
+        <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="card">
+            <div class="card-img">
+              <img src="{% static 'assets/img/geriatrica.jpg' %}" alt="...">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><a href="#">Geriátrica</a></h5>
+              <!-- <p class="card-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p>
+              <div class="read-more"><a href="#"><i class="icofont-arrow-right"></i> Read More</a></div> -->
+            </div>
+          </div>
 
-    {%  endblock %}
+        </div>
+        <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="card">
+            <div class="card-img">
+              <img src="{% static 'assets/img/deportiva2.png' %}" alt="...">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><a href="#">Deportiva</a></h5>
+              <!-- <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores eos qui ratione voluptatem sequi nesciunt Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</p>
+              <div class="read-more"><a href="#"><i class="icofont-arrow-right"></i> Read More</a></div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="card">
+            <div class="card-img">
+              <img src="{% static 'assets/img/reumatologica2.png' %}" alt="...">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><a href="#">Reumatológica</a></h5>
+              <!-- <p class="card-text">Nostrum eum sed et autem dolorum perspiciatis. Magni porro quisquam laudantium voluptatem. In molestiae earum ab sit esse voluptatem. Eos ipsam cumque ipsum officiis qui nihil aut incidunt aut</p>
+              <div class="read-more"><a href="#"><i class="icofont-arrow-right"></i> Read More</a></div> -->
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="card">
+            <div class="card-img">
+              <img src="{% static 'assets/img/estimulacionTem.png' %}" alt="...">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><a href="#">Pediátrica</a></h5>
+              <!-- <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores eos qui ratione voluptatem sequi nesciunt Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</p>
+              <div class="read-more"><a href="#"><i class="icofont-arrow-right"></i> Read More</a></div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="card">
+            <div class="card-img">
+              <img src="{% static 'assets/img/mantrau.jpg' %}" alt="...">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><a href="#">Manual ortopédica </a></h5>
+              <!-- <p class="card-text">Nostrum eum sed et autem dolorum perspiciatis. Magni porro quisquam laudantium voluptatem. In molestiae earum ab sit esse voluptatem. Eos ipsam cumque ipsum officiis qui nihil aut incidunt aut</p>
+              <div class="read-more"><a href="#"><i class="icofont-arrow-right"></i> Read More</a></div> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+</main>
+<!-- Hero section end -->
+
+{% endblock %}

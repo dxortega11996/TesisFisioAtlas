@@ -28,7 +28,7 @@
   <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="{% static 'assets/vendor/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/css/style.css' %}" rel="stylesheet">//aqui estan los estlos principales
 
   <!-- =======================================================
   * Template Name: Moderna - v2.2.1
@@ -41,8 +41,9 @@
 <body>
 
 	
+	{% block  header %}
+    
 	
-    {% block  contenerdor %}
 	<!-- ======= Header ======= -->
 	<header id="header" class="fixed-top header-transparent">
 		<div class="container">
@@ -59,28 +60,10 @@
 		  <nav class="nav-menu float-right d-none d-lg-block">
 			<ul>
 			  <li class="active"><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
-			  <li><a href="about.html">Nosotros</a></li>
-			  <li><a href="services.html">Servicios</a></li>
-			  <li><a href="portfolio.html">Contactos</a></li>
-			  <!-- <li><a href="team.html">Team</a></li>
-			  <li><a href="blog.html">Blog</a></li>
-			  <li class="drop-down"><a href="">Drop Down</a>
-				<ul>
-				  <li><a href="#">Drop Down 1</a></li>
-				  <li class="drop-down"><a href="#">Drop Down 2</a>
-					<ul>
-					  <li><a href="#">Deep Drop Down 1</a></li>
-					  <li><a href="#">Deep Drop Down 2</a></li>
-					  <li><a href="#">Deep Drop Down 3</a></li>
-					  <li><a href="#">Deep Drop Down 4</a></li>
-					  <li><a href="#">Deep Drop Down 5</a></li>
-					</ul>
-				  </li>
-				  <li><a href="#">Drop Down 3</a></li>
-				  <li><a href="#">Drop Down 4</a></li>
-				  <li><a href="#">Drop Down 5</a></li>
-				</ul>
-			  </li> -->
+			  <li><a href="{% url 'indexHome:HomeNosotros' %}">Nosotros</a></li>
+			  <li><a href="{% url 'indexHome:HomeServicios' %}">Servicios</a></li>
+			  <li><a href="{% url 'indexHome:HomeContacto' %}">Contactos</a></li>
+			  
 			  <li>
 				{% if user.id %}
 					<a href="/accounts/profile/" class="btnSession">{{user.first_name|slice:"0:7"}} {{user.last_name|slice:"0:7"}}</a>
@@ -95,7 +78,8 @@
 	
 		</div>
 	  </header><!-- End Header -->
-	
+	  {% endblock%}
+	  {% block  contenerdor %}
 	  <!-- ======= Hero Section ======= -->
 	  <section id="hero" class="d-flex justify-cntent-center align-items-center">
 		<div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
@@ -138,53 +122,11 @@
 		  </a>
 	
 		</div>
-	  </section><!-- End Hero -->
+	  </section>
 	
 	  <main id="main">
 	
-		<!-- ======= Services Section ======= -->
-		<!-- <section class="services">
-		  <div class="container">
-	
-			<div class="row">
-			  <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
-				<div class="icon-box icon-box-pink">
-				  <div class="icon"><i class='bx bxs-like bx-tada'></i> --><!-- <i class="bx bxl-dribbble"></i> --><!-- </div> -->
-				  <!-- <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-				  <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-				</div>
-			  </div>
-	 -->
-			  <!-- <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-				<div class="icon-box icon-box-cyan">
-				  <div class="icon"><i class="bx bx-file"></i></div>
-				  <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-				  <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
-				</div>
-			  </div> -->
-	
-			  <!-- <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-				<div class="icon-box icon-box-green">
-				  <div class="icon"><i class="bx bx-tachometer"></i></div>
-				  <h4 class="title"><a href="">Magni Dolores</a></h4>
-				  <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-				</div>
-			  </div> -->
-	
-			  <!-- <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-				<div class="icon-box icon-box-blue">
-				  <div class="icon"><i class="bx bx-world"></i></div>
-				  <h4 class="title"><a href="">Nemo Enim</a></h4>
-				  <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-				</div>
-			  </div> -->
-	
-			<!-- </div>
-	
-		  </div>
-		</section> -->
-		<!-- End Services Section -->
-	
+		
 		<!-- ======= Why Us Section ======= -->
 		<section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200">
 		  <div class="container">
@@ -240,10 +182,10 @@
 					Existen muchos aspectos que determinan el grado de dolor de las diferentes enfermedades para llegar a un diagnóstico, y así poder determinar el tiempo de recuperación. Entre ellos tenemos:
 				</p>
 				<ul>
-				  <li><i class="icofont-check"></i>El tiempo de evolución.</li>
-				  <li><i class="icofont-check"></i>La causa del dolor.</li>
-				  <li><i class="icofont-check"></i>La patología base que esté originando el cuadro de dolor.</li>
-				  <li><i class="icofont-check"></i>La medicación utilizada y el aspecto nutricional.</li>
+				  <li><i class="icofont-check"></i>Tiempo de evolución.</li>
+				  <li><i class="icofont-check"></i>Causa del dolor.</li>
+				  <li><i class="icofont-check"></i>Patología base que esté originando el cuadro de dolor.</li>
+				  
 				</ul>
 				<p class="font-italic">
 					En FisioAtlas no buscamos tratar el síntoma, buscamos el origen de las molestias y explotamos nuestras habilidades profesionales para resolver el problema de origen, y así lograr que nuestros pacientes se recuperen.
@@ -253,7 +195,7 @@
 	
 			<div class="row" data-aos="fade-up">
 			  <div class="col-md-5 order-1 order-md-2">
-				<img src="assets/img/features-2.svg" class="img-fluid" alt="">
+				<img src="{% static 'assets/img/domicilio.jpg' %}" class="img-fluid" alt="">
 			  </div>
 			  <div class="col-md-7 pt-5 order-2 order-md-1">
 				<h3>Servicio a domicilio</h3>
@@ -304,8 +246,9 @@
 		  </div>
 		</section><!-- End Features Section -->
 	
-	  </main><!-- End #main -->
-	
+	  </main>
+	  {% endblock %}
+	  {% block  footer %}
 	  <!-- ======= Footer ======= -->
 	  <footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
 	
@@ -332,10 +275,10 @@
 			  <div class="col-lg-3 col-md-6 footer-links">
 				<h4>Enlaces útiles</h4>
 				<ul>
-				  <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-				  <li><i class="bx bx-chevron-right"></i> <a href="#">Nosotros</a></li>
-				  <li><i class="bx bx-chevron-right"></i> <a href="#">Servicios</a></li>
-				  <li><i class="bx bx-chevron-right"></i> <a href="#">Contactos</a></li>
+				  <li><i class="bx bx-chevron-right"></i> <a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+				  <li><i class="bx bx-chevron-right"></i> <a href="{% url 'indexHome:HomeNosotros' %}">Nosotros</a></li>
+				  <li><i class="bx bx-chevron-right"></i> <a href="{% url 'indexHome:HomeServicios' %}">Servicios</a></li>
+				  <li><i class="bx bx-chevron-right"></i> <a href="{% url 'indexHome:HomeContacto' %}">Contactos</a></li>
 				  
 				</ul>
 			  </div>

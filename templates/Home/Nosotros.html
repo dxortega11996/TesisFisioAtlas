@@ -1,108 +1,188 @@
-
 {% extends 'Home/Home.html' %}
 {% load static %}
-    {% block  contenerdor %}
-	<!-- Hero section -->
+{% block header %}
+<style>
+	@media (max-width: 768px) {
+		#main {
+			margin-top: 80px;
+		}
+	}
+</style>
+<header id="header" class="fixed-top ">
+	<div class="container">
 
-	<div class="container mt-2">
+		<div class="logo float-left">
+			<h1 class="text-light"><a href="{% url 'indexHome:HomePrincipal' %}"><span>FISIOATLAS</span></a></h1>
+		</div>
 
-				<div class="row mt-5" >
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-md-12 " style="border-bottom: 1px solid #e6e6e6!important;">
-								<h4>Misión</h4>
-							</div>
-							<div class="col md-12 mt-2" style="text-align: justify;">
-								<p>Ser un consultorio reconocido en la ciudad de Latacunga brindando una excelente atención y ayudando a aliviar dolores físicos de cada uno de los pacientes.</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-md-12" style="border-bottom: 1px solid #e6e6e6!important;">
-								<h4>Visión</h4>
-							</div>
-							<div class="col md-12 mt-2" style="text-align: justify;">
-								<p>En 5 años consolidarse en una clínica que brinde atención a múltiples áreas médicas, teniendo como objetivo principal la rehabilitación física y deportiva.</p>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="row mt-1" style="border-bottom: 1px solid #e6e6e6!important;">
-					<div class="col-md-12">
-						<h4>Centro de Fisioterapia</h4>
-					</div>
-					
-				</div>
-				<div class="row mt-3">
-					<div class="col-md-8" style="text-align: justify;">
-						<p>FISIOATLAS, es un consultorio de fisioterapia que nace por iniciativa de ayudar a las personas y deseos de crecimiento personal y profesional de su principal socio fundador, el Lic. Henry Santiago Chanatasig Meza, profesional en el área de la ciencia de la salud que ofrece un tratamiento terapéutico y de rehabilitación no farmacológica para diagnosticar, prevenir y tratar síntomas de múltiples dolencias, brindando altos estándares de seguridad, calidad y excelencia.
-							<br>
-							<br>
-							Es así como en el año 2018 se genera el sueño de crear el Centro de Rehabilitación física y deportiva “FISIOATLAS”, el mismo que se constituye un 12 de febrero del 2019 en la ciudad de Latacunga en la Parroquia de San Buenaventura teniendo como perspectiva desde sus inicios como meta fundamental superar las exigencias de sus pacientes y las expectativas del resto de consultorios, estándares de calidad que le permitirán ser conocido a nivel nacional.
-							<br>
-							<br>
-							Como información importante y relevante el nombre de Fisioatlas, proviene de los termino; FISIO – en honor a la profesión el ser Fisioterapeuta y ATLAS – al nombre de la primera vertebra del cuerpo y la más importante.
-							<br>
-							<br>
-							
-						</p>
-					</div>
-					<div class="col-md-4">
-						<img class="rounded" src="{% static 'assets/Comercial/img/centro2.jpg' %}" alt="" style="width: 100%;">
-					</div>
-
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<img class="rounded" src="{% static 'assets/Comercial/img/doctor_2.jpg' %}" alt="" style="width: 100%;">
-					</div>
-					<div class="col-md-8" style="text-align: justify;">
-						<p>
-							Resumiendo, sus inicios nuestro preciado consultorio comenzó con su principal instrumento sus manos, que son hasta el día de hoy gran ayuda para el sin número de pacientes que aprecian y agradecen el trabajo realizado y han dado esperanzas y alivio a cada uno de ellos, un electro estimulador, un ultrasonido y un aceite Johnson que quedo de la finalización de su tesis, teniendo como primer paciente a su abuelito quien fue también parte de este sueño y con quien comenzó este gran trabajo.
-							<br>
-							<br>
-							El consultorio continuo en proceso de crecimiento, desarrollo y aprendizaje cada día dedicándose a la rama de recuperación en cupping, pediatría, geriátrica, terapia deportiva, respiratoria, instrumental, traumatología, manual ortopédico, estimulación temprana y punción seca metamérica; siendo así un consultorio reconocido y recomendado por todos quienes llegan a él.
-							<br>
-							<br>
-							Hasta el día de hoy este sueño se mantiene latente y crece cada día con el apoyo de las personas que buscan una ayuda a sus problemas de dolor encontrando en FisioAtlas su recuperación.
-							
-						</p>
-					</div>
-					
-
-				</div>
+		<nav class="nav-menu float-right d-none d-lg-block">
+			<ul>
+				<li><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+				<li class="active"><a href="{% url 'indexHome:HomeNosotros' %}">Nosotros</a></li>
+				<li><a href="{% url 'indexHome:HomeServicios' %}">Servicios</a></li>
+				<li><a href="{% url 'indexHome:HomeContacto' %}">Contactos</a></li>
+				<li>
+					{% if user.id %}
+					<a href="/accounts/profile/" class="btnSession">{{user.first_name|slice:"0:7"}}
+						{{user.last_name|slice:"0:7"}}</a>
+					{% else %}
+					<a href="/accounts/profile/" class="btnSession">Iniciar Sesión</a>
+					{% endif %}
 
 
+				</li>
+			</ul>
+		</nav><!-- .nav-menu -->
 
-				<div class="row mt-5" style="border-bottom: 1px solid #e6e6e6!important;">
-					<div class="col-md-12">
-						<h4>Profesional</h4>
-					</div>
-					
-				</div>
-				<div class="row mt-3 ">
-					
-					<div class="col-md-4">
-						<img class="rounded"  src="{% static 'assets/img/fisio.jpg' %}" alt="" style="width: 100%;">
-					</div>
-					<div class="col-md-8" style="text-align: justify;">
-						<div class="row">
-							<p class="font-weight-bold">Lic. Henry Santiago Chanatasig Meza</p>
-						</div>
-						<div class="row">
-							<p class="font-weight-bold">Fisioterapeuta.</p>
-						</div>
-						<div class="row">
-							<p class="font-weight-bold">Experto en Rehabilitación Física.</p>
-						</div>
-					</div>
-				</div>
-			
 	</div>
-	<!-- Hero section end -->
+</header>
 
-    {%  endblock %}
+{% endblock %}
+{% block contenerdor %}
+<main id="main">
 
+	<!-- ======= About Us Section ======= -->
+	<section class="breadcrumbs">
+		<div class="container">
+
+			<div class="d-flex justify-content-between align-items-center">
+				<h2>Nosotros</h2>
+				<ol>
+					<li><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+					<li>Nosotros</li>
+				</ol>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="services">
+		<div class="container">
+
+			<div class="row">
+
+
+				<div class="col-md-6 col-lg-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+					<div class="icon-box icon-box-cyan">
+						<div class="icon"><i class="bx bx-pulse"></i></div>
+						<h4 class="title"><a href="">Misión</a></h4>
+						<p class="description">Ser un consultorio reconocido en la ciudad de Latacunga brindando una
+							excelente atención y ayudando a aliviar dolores físicos de cada uno de los pacientes.</p>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+					<div class="icon-box icon-box-green">
+						<div class="icon"><i class="bx bx-show-alt"></i></div>
+						<h4 class="title"><a href="">Visión</a></h4>
+						<p class="description">En 5 años consolidarse en una clínica que brinde atención a múltiples
+							áreas médicas, teniendo como objetivo principal la rehabilitación física y deportiva.</p>
+					</div>
+				</div>
+
+
+
+			</div>
+
+		</div>
+	</section>
+
+
+
+	<section class="about" data-aos="fade-up">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-6">
+					<img src="{% static 'assets/Comercial/img/doctor_2.jpg' %}" class="img-fluid" alt="">
+				</div>
+				<div class="col-lg-6 pt-4 pt-lg-0">
+					<h3>Centro de Fisioterapia</h3>
+					<p class="text-justify">FISIOATLAS, es un consultorio de fisioterapia que nace por iniciativa de
+						ayudar a las personas y deseos de crecimiento personal y profesional de su principal socio
+						fundador, el Lic. Henry Santiago Chanatasig Meza, profesional en el área de la ciencia de la
+						salud que ofrece un tratamiento terapéutico y de rehabilitación no farmacológica para
+						diagnosticar, prevenir y tratar síntomas de múltiples dolencias, brindando altos estándares de
+						seguridad, calidad y excelencia.
+						<br>
+						<br>
+						Es así como en el año 2018 se genera el sueño de crear el Centro de Rehabilitación física y
+						deportiva “FISIOATLAS”, el mismo que se constituye un 12 de febrero del 2019 en la ciudad de
+						Latacunga en la Parroquia de San Buenaventura teniendo como perspectiva desde sus inicios como
+						meta fundamental superar las exigencias de sus pacientes y las expectativas del resto de
+						consultorios, estándares de calidad que le permitirán ser conocido a nivel nacional.
+						<br>
+						<br>
+						Como información importante y relevante el nombre de Fisioatlas, proviene de los termino; FISIO
+						– en honor a la profesión el ser Fisioterapeuta y ATLAS – al nombre de la primera vertebra del
+						cuerpo y la más importante.
+						<br>
+						<br>
+
+					</p>
+				</div>
+			</div>
+
+			<div class="row mt-3">
+
+				<div class="col-lg-6 pt-4 pt-lg-0">
+					<p class="text-justify">
+						Resumiendo, sus inicios nuestro preciado consultorio comenzó con su principal instrumento sus
+						manos, que son hasta el día de hoy gran ayuda para el sin número de pacientes que aprecian y
+						agradecen el trabajo realizado y han dado esperanzas y alivio a cada uno de ellos, un electro
+						estimulador, un ultrasonido y un aceite Johnson que quedo de la finalización de su tesis,
+						teniendo como primer paciente a su abuelito quien fue también parte de este sueño y con quien
+						comenzó este gran trabajo.
+						<br>
+						<br>
+						El consultorio continuo en proceso de crecimiento, desarrollo y aprendizaje cada día dedicándose
+						a la rama de recuperación en cupping, pediatría, geriátrica, terapia deportiva, respiratoria,
+						instrumental, traumatología, manual ortopédico, estimulación temprana y punción seca metamérica;
+						siendo así un consultorio reconocido y recomendado por todos quienes llegan a él.
+						<br>
+						<br>
+						Hasta el día de hoy este sueño se mantiene latente y crece cada día con el apoyo de las personas
+						que buscan una ayuda a sus problemas de dolor encontrando en FisioAtlas su recuperación.
+
+					</p>
+				</div>
+				<div class="col-lg-6">
+					<img src="{% static 'assets/Comercial/img/centro2.jpg' %}" class="img-fluid" alt="">
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+
+	<section class="services section-bg">
+		<div class="container">
+			<div class="section-title">
+				<h2>Profesional</h2>
+			</div>
+
+			<div class="row" style="justify-content: center;">
+				<div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+					<div class="icon-box icon-box-blue">
+						<img class="card-img-top border" src="{% static 'assets/img/fisio.jpg' %}" alt="Card image cap">
+						<div class="icon my-3"><i class="bx bx-first-aid"></i></div>
+						<h4 class="title"><a href="">Lic. Henry Santiago Chanatasig Meza</a></h4>
+						<p class="description">Fisioterapeuta</p>
+						<p class="description">Experto en Rehabilitación Física</p>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</section>
+
+
+
+
+
+</main>
+<!-- Hero section end -->
+
+{% endblock %}

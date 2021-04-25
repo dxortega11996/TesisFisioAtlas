@@ -1,62 +1,157 @@
 {% extends 'Home/Home.html' %}
 {% load static %}
-    {% block  contenerdor %}
-	<!-- Hero section -->
+{% block header %}
+<style>
+	@media (max-width: 768px) {
+		#main {
+			margin-top: 80px;
+		}
+	}
 
-	<div class="container mt-2">
-        <div class="card">
-            <div class="card-header">
-                Contactos
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-12 text-center">
-                            <h5 class="card-title">Dirección: </h5>
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <i class="fas fa-map-marker-alt" style="font-size: 40px;color: #09accc ;"> </i>
+    .about .icofont-check-circled{
+        border: 0px !important;
+    }
+    .lblDays{
+        width: 100px;
+        text-align: left;
+    }
+    .daysAtencion{
+        width: 80%;
+        margin: auto;
+        text-align: center;
+    }
+    .section-title{
+        padding-bottom: 0px;
+    }
+</style>
+<header id="header" class="fixed-top ">
+	<div class="container">
 
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <p>Latacunga -  San Buenaventura - Colaisa </p>
-                        </div>
+		<div class="logo float-left">
+			<h1 class="text-light"><a href="{% url 'indexHome:HomePrincipal' %}"><span>FISIOATLAS</span></a></h1>
+		</div>
 
-                        <div class="col-md-12 text-center mt-4">
-                            <h5 class="card-title">Correo Electrónico:</h5>
-                        </div>
-                        <div class="col-md-12 text-center">
-                            
-                            <i class="fas fa-envelope-open" style="font-size: 40px;color: #09accc ;"> </i>
+		<nav class="nav-menu float-right d-none d-lg-block">
+			<ul>
+				<li><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+				<li ><a href="{% url 'indexHome:HomeNosotros' %}">Nosotros</a></li>
+				<li><a href="{% url 'indexHome:HomeServicios' %}">Servicios</a></li>
+				<li class="active"><a href="{% url 'indexHome:HomeContacto' %}">Contactos</a></li>
+				<li>
+					{% if user.id %}
+					<a href="/accounts/profile/" class="btnSession">{{user.first_name|slice:"0:7"}}
+						{{user.last_name|slice:"0:7"}}</a>
+					{% else %}
+					<a href="/accounts/profile/" class="btnSession">Iniciar Sesión</a>
+					{% endif %}
 
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <p>santy8516@gmail.com </p>
-                        </div>
 
-                        <div class="col-md-12 text-center mt-4">
-                            <h5 class="card-title">Teléfono:</h5>
-                        </div>
-                        <div class="col-md-12 text-center">
-                            
-                            <i class="fas fa-mobile-alt" style="font-size: 40px;color: #09accc ;"> </i>
+				</li>
+			</ul>
+		</nav><!-- .nav-menu -->
 
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <p>0995337079 - 098 798 2214 </p>
-                        </div>
+	</div>
+</header>
 
-                    </div>
-                    <div class="col-md-6">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3272736810086!2d-78.6204711857271!3d-0.8989321355786579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d461b22072e4b9%3A0xdaf32f0451a20ede!2sCentro%20de%20Rehabilitaci%C3%B3n%20F%C3%ADsica%20y%20Deportiva%20FISIOATLAS!5e0!3m2!1ses-419!2sec!4v1607110265749!5m2!1ses-419!2sec" width="" height="450" frameborder="0" style="border:0;width: 100%; max-width: 100%;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                    </div>
+{% endblock %}
+{% block contenerdor %}
+<main id="main">
+
+	<!-- ======= About Us Section ======= -->
+	<section class="breadcrumbs">
+		<div class="container">
+
+			<div class="d-flex justify-content-between align-items-center">
+				<h2>Contactos</h2>
+				<ol>
+					<li><a href="{% url 'indexHome:HomePrincipal' %}">Home</a></li>
+					<li>Contactos</li>
+				</ol>
+			</div>
+
+		</div>
+	</section>
+
+    <section class="contact" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+        <div class="container">
+  
+          <div class="row">
+  
+            <div class="col-lg-6">
+  
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="info-box">
+                    <i class="bx bx-map"></i>
+                    <h3>Nuestra dirección</h3>
+                    <p>Av. Miguel Iturralde, barrio Colaisa frente a la farmacia Comunitaria<br> Latacunga - Ecuador</p>
+                  </div>
                 </div>
-                
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <i class="bx bx-envelope"></i>
+                    <h3>Envianos un correo electrónico</h3>
+                    <p>santy8516@gmail.com<br></p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <i class="bx bx-phone-call"></i>
+                    <h3>Llámanos</h3>
+                    <p>+593 995337079<br>+593 987982214</p>
+                  </div>
+                </div>
+              </div>
+  
             </div>
+  
+            <div class="col-lg-6">
+                <div class="row info-box" style="margin-bottom: 0px;">
+                    <div class="col-md-12 text-center">
+                        <div class="section-title">
+                            <h2>Horarios de Atención</h2>
+                          </div>
+                    </div>
+                    <div class="col-md-12  text-left">
+                        <div class="about">
+                            <div class="daysAtencion">
+                                <ul>
+                                    <li><i class="icofont-check-circled "></i><label class="lblDays">Lunes </label><label><strong>06:00 AM - 19:30 PM</strong></label></li>
+                                    <li><i class="icofont-check-circled"></i><label class="lblDays">Martes </label><label><strong>06:00 AM - 19:30 PM</strong></label></li>
+                                    <li><i class="icofont-check-circled"></i><label class="lblDays">Miércoles </label><label><strong>06:00 AM - 19:30 PM</strong></label></li>
+                                    <li><i class="icofont-check-circled"></i><label class="lblDays">Jueves </label><label><strong>06:00 AM - 19:30 PM</strong></label></li>
+                                    <li><i class="icofont-check-circled"></i><label class="lblDays">Viernes </label><label><strong>06:00 AM - 19:30 PM</strong></label></li>
+                                    <li><i class="icofont-check-circled"></i><label class="lblDays">Sábado </label><label><strong>08:00 AM - 15:00 PM</strong></label></li>
+                                    <li><i class="icofont-check-circled"></i><label class="lblDays">Domingo </label><label><strong>08:00 AM - 15:00 PM</strong></label></li>
+                                    
+                                  </ul>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+               
+            </div>
+  
           </div>
-    
-    </div>
-	<!-- Hero section end -->
+  
+        </div>
+      </section><!-- End Contact Section -->
+  
+      <!-- ======= Map Section ======= -->
+      <section class="map mt-2">
+        <div class="container-fluid p-0">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3272736810086!2d-78.6204711857271!3d-0.8989321355786579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d461b22072e4b9%3A0xdaf32f0451a20ede!2sCentro%20de%20Rehabilitaci%C3%B3n%20F%C3%ADsica%20y%20Deportiva%20FISIOATLAS!5e0!3m2!1ses-419!2sec!4v1607110265749!5m2!1ses-419!2sec" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </div>
+      </section><!-- End Map Section -->
+  
 
-    {%  endblock %}
 
+
+
+</main>
+<!-- Hero section end -->
+
+{% endblock %}
